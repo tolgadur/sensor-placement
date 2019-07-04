@@ -1,51 +1,78 @@
 #!/usr/bin/python
 import numpy as np
 import pandas as pd
+from sklearn import preprocessing
 
 import sys
 sys.path.append('fluidity-master')
 import vtktools
 
 ################################################################################
-#        FILE NAME: "get_csv.py"                                               #
+#        FILE NAME: 'get_csv.py'                                               #
 #        DESCRIPTION: This file is loading and preparing the data from the raw #
 #        fluidity files to panda dataframes that are then saved in csv files.  #
+#        Right now, the average value of every field over time is taken for    #
+#        each of the 100,080 positions.
 #        INPUT: LSBU_0.vtu - LSBU_988.vtu                                      #
-#        OUTPUT: data1.csv, data2.csv, data3.csv                               #
+#        OUTPUT: average_over_time.csv                                         #
 ################################################################################
 
-ug = vtktools.vtu('raw_data/LSBU_0.vtu')
+ug = vtktools.vtu('data/raw_data/LSBU_200.vtu')
 ug.GetFieldNames()
 pos = ug.GetLocations()
-
-X = pos[:, 0]
-Y = pos[:, 1]
-Z = pos[:, 2]
-time = ug.GetScalarField('Time')
 tracer = ug.GetScalarField('Tracer')
+tracer_background = ug.GetScalarField('TracerBackground')
+pressure = ug.GetScalarField('Pressure')
+velocity = ug.GetVectorNorm('Velocity')
 
-for i in range(0, 988):
+##################### FUNCTION TO COMBINE DATA IN DATAFRAME ####################
+
+def getDF(pos, velocity, pressure, tracer_background, tracer):
+    df = pd.DataFrame({'X': pos[:, 0],
+                       'Y': pos[:, 1],
+                       'Z': pos[:, 2],
+                       'velocity_norm': velocity,
+                       'pressure': pressure,
+                       'tracer_background': tracer_background,
+                       'tracer': tracer})
+    return df
+
+######################## GET AVERAGE OVER TIMESTEPS ############################
+
+for i in range(201, 989):
+    last_index = i+1
     print('LSBU_'+str(i)+'.vtu')
-    ug = vtktools.vtu('raw_data/LSBU_'+str(i)+'.vtu')
+    ug = vtktools.vtu('data/raw_data/LSBU_'+str(i)+'.vtu')
     ug.GetFieldNames()
     pos = ug.GetLocations()
 
-    X = np.hstack((X, pos[:, 0]))
-    Y = np.hstack((Y, pos[:, 1]))
-    Z = np.hstack((Z, pos[:, 2]))
-    time = np.hstack((time, ug.GetScalarField('Time')))
-    tracer = np.hstack((tracer, ug.GetScalarField('Tracer')))
+    tracer += ug.GetScalarField('Tracer')
+    tracer_background += ug.GetScalarField('TracerBackground')
+    pressure += ug.GetScalarField('Pressure')
+    velocity += ug.GetVectorNorm('Velocity')
 
-######################## TRUNCATED SINGULAR VALUE DECOMPOSITION ################
+tracer /= last_index
+tracer_background /= last_index
+pressure /= last_index
+# velocity /= last_index
 
-# svd = TruncatedSVD(n_components=1, n_iter=7, random_state=42)
-#
-# svd.fit(principalComponents)
-# print(principalComponents)
+df = getDF(pos, velocity, pressure, tracer_background, tracer)
+
+################ NORMALIZE/STANDARDIZE POTENTIAL OUTPUT FIELDS #################
+
+def normalize(df, column):
+    return (df[column]-df[column].min()) / (df[column].max()-df[column].min())
+
+def standardize(df, column):
+    print(df[column].mean())
+    return (df[column]-df[column].mean()) / df[column].std()
+
+df['tracer'] = standardize(df, 'tracer')
+df['tracer_background'] = standardize(df, 'tracer_background')
+df['pressure'] = standardize(df, 'pressure')
+df['velocity_norm'] = standardize(df, 'velocity_norm')
 
 ######################### COMBINE AND SAVE DATA ################################
 
-df = pd.DataFrame({'X': X, 'Y': Y, 'Z': Z, 'time': time, 'tracer': tracer})
-print(df)
-
-df.to_csv('sample.csv', index=False)
+print('Saving...')
+df.to_csv('timestep_500.csv', index=False)
