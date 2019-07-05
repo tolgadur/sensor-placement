@@ -4,6 +4,7 @@ import math
 import pandas as pd
 import operator
 from matplotlib import pyplot as plt
+import operator
 import GPy
 
 ################################################################################
@@ -29,7 +30,7 @@ def subtract_pos(A, B): # subtracts multidimensional numpy array according to se
         return A
 
 def getPossibleImpossible(pos):
-    possible = pos[(pos[:,2]<=29.0)]
+    possible = pos[(pos[:,2]<=33.0)]
     impossible = subtract_pos(pos, possible)
     return possible, impossible
 
@@ -67,17 +68,14 @@ def getMatrixDecomposition(V, cov, y, A):
         cov_y_A = getCovarianceMatrix(V, cov, y, A)
         cov_A_A = np.linalg.inv(getCovarianceMatrix(V, cov, A, A))
         cov_A_y = getCovarianceMatrix(V, cov, A, y)
-        return cov_y_A @ cov_A_A @ cov_A_y
+        decomp = cov_y_A @ cov_A_A @ cov_A_y
+        return decomp[0][0]
     return 0
 
 def getMutualInformation(cov, V, y, A, AHat):
     var_y = getCovarianceValue(V, cov, y, y)
     decomp1 = getMatrixDecomposition(V, cov, y, A)
     decomp2 = getMatrixDecomposition(V, cov, y, AHat)
-
-    print('decomp2', decomp2)
-    print('var_y', var_y)
-    print('delta', delta)
 
     return (var_y - decomp1)/(var_y - decomp2)
 
@@ -86,42 +84,37 @@ def approximation1(cov, k, V, S, U): # parameters and variables were named like 
     for j in range(0, k):
         remaining = subtract_pos(S, A)
         AHat = subtract_pos(V, A)
-        delta_max = 0
-        y_max = np.zeros((1, 3))
+        delta = []
 
         for y in remaining:
             AHat = subtract_pos(AHat, y)
+            delta.append(getMutualInformation(cov, V, y, A, AHat))
 
-            delta = getMutualInformation(cov, V, y, A, AHat)
-
-            if delta_max < delta[0][0]:
-                delta_max = delta
-                y_max[0][0] = y[0]; y_max[0][1] = y[1]; y_max[0][2] = y[2]
-
-        A = np.concatenate((A, y_max), axis=0)
+        i, v = max(enumerate(delta), key=operator.itemgetter(1))
+        A = np.concatenate((A, remaining[i]), axis=0)
     return A
 
-def approximation2(cov, k, V, S, U):
+def approximation2(cov, k, V, S, U): # parameters and variables were named like in pseudo-code of paper
     A = np.empty((0, 3))
     delta = []
     current = []
-    for i, y in enumerate(S):
-        delta.append((math.inf, i))
+    for y in S:
+        delta.append(math.inf)
+
     for j in range(0, k):
         remaining = subtract_pos(S, A)
         for y in remaining:
             current.append(False);
         while True:
-            delta_index, delta_value = max(enumerate(delta), key=operator.itemgetter(1))
-            y_index = delta[delta_i][1]
-            if current[y_index]:
+            i, v = max(enumerate(delta), key=operator.itemgetter(1)) # S\A instead of S
+            if current[i]:
                 break
-            delta[delta_index] = getMutualInformation(cov, V, y, A, AHat)
-            current[y_index] = True;
-        A = np.concatenate((A, V[y_index]), axis=0) # won't work
+            delta[i] = getMutualInformation(cov, V, y, A, AHat)
+            current[i] = True;
+        A = np.concatenate((A, remaining[i]), axis=0)
     return A
 
-# def approximation3(cov, k, V, S, U):
+# def approximation3(cov, k, V, S, U): # parameters and variables were named like in pseudo-code of paper
 #     A = np.empty((0, 3))
 #     delta = []
 #     AHat = subtract_pos(V, A)
@@ -139,13 +132,13 @@ def approximation2(cov, k, V, S, U):
 ########################### Preparing data for GP ##############################
 
 # loading and preparing data from csv file
-data = pd.read_csv('data/csv_data/standardized/timestep_500.csv')
+data = pd.read_csv('data/csv_data/normalized/tracer_george/LSBU_500_3.csv')
 
 obs_pos = data[['X', 'Y', 'Z']].copy().values
 obs_pos = obs_pos[:100]
 
-tracer = data['tracer_background'].values # used as output to calculate cov matrix. (change dimension)
-tracer = np.reshape(tracer, (100040, 1))
+tracer = data['tracer'].values # used as output to calculate cov matrix. (change dimension)
+tracer = np.reshape(tracer, (tracer.shape[0], 1))
 tracer = tracer[:100]
 
 ########################### Simple GP implementation ###########################
@@ -156,13 +149,17 @@ m = GPy.models.GPRegression(obs_pos, tracer, k)
 m.optimize()
 
 # new test points to sample function from
-X_sample, Y_sample, Z_sample = np.mgrid[-360:360:100, -340:340:100, 0:250:100] # check if it is correct
-sample_pos = np.array([X_sample.flatten(), Y_sample.flatten(), Z_sample.flatten()]).T
-possible, impossible = getPossibleImpossible(sample_pos)
+X_3_sample, Y_3_sample, Z_3_sample = np.mgrid[-1:508:100, -315:326:100, 0.2:250:100]
+sample_pos_3 = np.array([X_3_sample.flatten(), Y_3_sample.flatten(), Z_3_sample.flatten()]).T
+possible_3, impossible_3 = getPossibleImpossible(sample_pos_3)
+
+# X_7_sample, Y_7_sample, Z_7_sample = np.mgrid[121:683:100j, -228:219:100j, 0.2:250:100j]
+# sample_pos_7 = np.array([X_3_sample.flatten(), Y_7_sample.flatten(), Z_7_sample.flatten()]).T
+# possible_7, impossible_7 = getPossibleImpossible(sample_pos_7)
 
 # calculate the posterior covariance matrix
-post_mean, post_cov = m.predict(sample_pos, full_cov=True)
+post_mean, post_cov = m.predict(sample_pos_3, full_cov=True)
 
 # find optimal sensor A with the first approximation function
-A = approximation1(post_cov, 9, sample_pos, possible, impossible)
+A = approximation1(post_cov, 9, sample_pos_3, possible_3, impossible_3)
 # A = approximation2(post_cov, 9, sample_pos, possible, impossible)

@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 from sklearn import preprocessing
+from scipy import stats
 
 import sys
 sys.path.append('fluidity-master')
@@ -12,79 +13,66 @@ import vtktools
 #        DESCRIPTION: This file is loading and preparing the data from the raw #
 #        fluidity files to panda dataframes that are then saved in csv files.  #
 #        Right now, the average value of every field over time is taken for    #
-#        each of the 100,080 positions.
-#        INPUT: LSBU_0.vtu - LSBU_988.vtu                                      #
+#        each of the 100,080 positions.                                        #
+#        INPUT: LSBU_200/ - LSBU_988/                                          #
 #        OUTPUT: average_over_time.csv                                         #
 ################################################################################
 
-# ug = vtktools.vtu('data/raw_data/LSBU_500.vtu')
-# ug.GetFieldNames()
-# pos = ug.GetLocations()
-# tracer = ug.GetScalarField('Tracer')
-# tracer_background = ug.GetScalarField('TracerBackground')
-# pressure = ug.GetScalarField('Pressure')
-# velocity = ug.GetVectorNorm('Velocity')
-#
-# ##################### FUNCTION TO COMBINE DATA IN DATAFRAME ####################
-#
-# def getDF(pos, velocity, pressure, tracer_background, tracer):
-#     df = pd.DataFrame({'X': pos[:, 0],
-#                        'Y': pos[:, 1],
-#                        'Z': pos[:, 2],
-#                        'velocity_norm': velocity,
-#                        'pressure': pressure,
-#                        'tracer_background': tracer_background,
-#                        'tracer': tracer})
-#     return df
-#
-# ######################## GET AVERAGE OVER TIMESTEPS ############################
-#
-# for i in range(201, 989):
-#     last_index = i+1
-#     print('LSBU_'+str(i)+'.vtu')
-#     ug = vtktools.vtu('data/raw_data/LSBU_'+str(i)+'.vtu')
-#     ug.GetFieldNames()
-#     pos = ug.GetLocations()
-#
-#     tracer += ug.GetScalarField('Tracer')
-#     tracer_background += ug.GetScalarField('TracerBackground')
-#     pressure += ug.GetScalarField('Pressure')
-#     velocity += ug.GetVectorNorm('Velocity')
-#
-# tracer /= last_index
-# tracer_background /= last_index
-# pressure /= last_index
-# # velocity /= last_index
-#
-# df = getDF(pos, velocity, pressure, tracer_background, tracer)
-#
-# ################ NORMALIZE/STANDARDIZE POTENTIAL OUTPUT FIELDS #################
-#
-# def normalize(df, column):
-#     return (df[column]-df[column].min()) / (df[column].max()-df[column].min())
-#
-# def standardize(df, column):
-#     print(df[column].mean())
-#     return (df[column]-df[column].mean()) / df[column].std()
-#
-# df['tracer'] = standardize(df, 'tracer')
-# df['tracer_background'] = standardize(df, 'tracer_background')
-# df['pressure'] = standardize(df, 'pressure')
-# df['velocity_norm'] = standardize(df, 'velocity_norm')
-
-############################## GET PVTU_RAW CSV ################################
-
-ug = vtktools.vtu('data/pvtu_raw/LSBU_500/LSBU_500_9.vtu')
+ug = vtktools.vtu('data/LSBU_raw/LSBU_500/LSBU_500_7.vtu')
 ug.GetFieldNames()
 pos = ug.GetLocations()
 tracer = ug.GetScalarField('TracerGeorge')
 
-df = pd.DataFrame({'X': pos[:, 0],
-                   'Y': pos[:, 1],
-                   'Z': pos[:, 2],
-                   'tracer': tracer})
+##################### FUNCTION TO COMBINE DATA IN DATAFRAME ####################
+
+def getDF(pos, tracer_george):
+    df = pd.DataFrame({'X': pos[:, 0],
+                       'Y': pos[:, 1],
+                       'Z': pos[:, 2],
+                       'tracer': tracer})
+    return df
+
+######################## GET AVERAGE OVER TIMESTEPS ############################
+
+# for i in range(201, 989):
+#     last_index = i+1
+#     print('LSBU_'+str(i)+'.vtu')
+#     ug = vtktools.vtu('data/pvtu_raw/LSBU_'+str(i)'/LSBU_'+str(i)+'_3.vtu')
+#     ug.GetFieldNames()
+#     pos = ug.GetLocations()
+#
+#     tracer += ug.GetScalarField('TracerGeorge')
+
+# tracer /= last_index
+
+df = getDF(pos, tracer)
+
+######################## DROP OUTLIERS WITH IQR METHOD #########################
+
+def remove_outlier(df_in, col_name):
+    q1 = df_in[col_name].quantile(0.25)
+    q3 = df_in[col_name].quantile(0.75)
+    iqr = q3-q1 #Interquartile range
+    fence_low  = q1-1.5*iqr
+    fence_high = q3+1.5*iqr
+    df_out = df_in.loc[(df_in[col_name] > fence_low) & (df_in[col_name] < fence_high)]
+    return df_out
+
+df = remove_outlier(df, 'tracer')
+
+################ NORMALIZE/STANDARDIZE POTENTIAL OUTPUT FIELDS #################
+
+def normalize(df, column):
+    return (df[column]-df[column].min()) / (df[column].max()-df[column].min())
+
+# def standardize(df, column):
+#     return (df[column]-df[column].mean()) / df[column].std()
+
+# df['tracer'] = standardize(df, 'tracer')
+df['tracer'] = normalize(df, 'tracer')
+
 
 ######################### COMBINE AND SAVE DATA ################################
 
 print('Saving...')
-df.to_csv('PVTU_500_9.csv', index=False)
+df.to_csv('data/csv_data/normalized/tracer_george/LSBU_500_7.csv', index=False)

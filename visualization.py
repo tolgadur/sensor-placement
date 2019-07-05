@@ -10,19 +10,31 @@ import GPy
 #        in this project.                                                      #
 ################################################################################
 
+
+# # Test dataset
 # average_not_stand = pd.read_csv('data/csv_data/not_standardized/average_time.csv')
 # time_500_not_stand = pd.read_csv('data/csv_data/not_standardized/timestep_500.csv')
 # time_500_stand = pd.read_csv('data/csv_data/standardized/timestep_500.csv')
-pvtu_500_0 = pd.read_csv('data/csv_data/pvtu_500_not_standardized/PVTU_500_0.csv')
-pvtu_500_1 = pd.read_csv('data/csv_data/pvtu_500_not_standardized/PVTU_500_1.csv')
-pvtu_500_2 = pd.read_csv('data/csv_data/pvtu_500_not_standardized/PVTU_500_2.csv')
-pvtu_500_3 = pd.read_csv('data/csv_data/pvtu_500_not_standardized/PVTU_500_3.csv')
-pvtu_500_4 = pd.read_csv('data/csv_data/pvtu_500_not_standardized/PVTU_500_4.csv')
-pvtu_500_5 = pd.read_csv('data/csv_data/pvtu_500_not_standardized/PVTU_500_5.csv')
-pvtu_500_6 = pd.read_csv('data/csv_data/pvtu_500_not_standardized/PVTU_500_6.csv')
-pvtu_500_7 = pd.read_csv('data/csv_data/pvtu_500_not_standardized/PVTU_500_7.csv')
-pvtu_500_8 = pd.read_csv('data/csv_data/pvtu_500_not_standardized/PVTU_500_8.csv')
-pvtu_500_9 = pd.read_csv('data/csv_data/pvtu_500_not_standardized/PVTU_500_9.csv')
+
+# # tracer_george 500 (outliers not dropped - all regions)
+# tracer_george_500_0 = pd.read_csv('data/csv_data/not_standardized/tracer_george/outliers_not_dropped/LSBU_500_0.csv')
+# tracer_george_500_1 = pd.read_csv('data/csv_data/not_standardized/tracer_george/outliers_not_dropped/LSBU_500_1.csv')
+# tracer_george_500_2 = pd.read_csv('data/csv_data/not_standardized/tracer_george/outliers_not_dropped/LSBU_500_2.csv')
+# tracer_george_500_3= pd.read_csv('data/csv_data/not_standardized/tracer_george/outliers_not_dropped/LSBU_500_3.csv')
+# tracer_george_500_4 = pd.read_csv('data/csv_data/not_standardized/tracer_george/outliers_not_dropped/LSBU_500_4.csv')
+# tracer_george_500_5 = pd.read_csv('data/csv_data/not_standardized/tracer_george/outliers_not_dropped/LSBU_500_5.csv')
+# tracer_george_500_6 = pd.read_csv('data/csv_data/not_standardized/tracer_george/outliers_not_dropped/LSBU_500_6.csv')
+# tracer_george_500_7 = pd.read_csv('data/csv_data/not_standardized/tracer_george/outliers_not_dropped/LSBU_500_7.csv')
+# tracer_george_500_8 = pd.read_csv('data/csv_data/not_standardized/tracer_george/outliers_not_dropped/LSBU_500_8.csv')
+# tracer_george_500_9 = pd.read_csv('data/csv_data/not_standardized/tracer_george/outliers_not_dropped/LSBU_500_9.csv')
+
+# # tracer_george (outliers dropped - region 3 and 7)
+# tracer_george_500_3 = pd.read_csv('data/csv_data/not_standardized/tracer_george/LSBU_500_3.csv')
+# tracer_george_500_7 = pd.read_csv('data/csv_data/not_standardized/tracer_george/LSBU_500_7.csv')
+
+# Normalization vs standardization on the example of LSBU_500_3
+# LSBU_500_3_s = pd.read_csv('data/csv_data/standardized/tracer_george/LSBU_500_3.csv')
+# LSBU_500_3_n = pd.read_csv('data/csv_data/normalized/tracer_george/LSBU_500_3.csv')
 
 
 ################################# HISTOGRAMS ###################################
@@ -40,34 +52,42 @@ def showHistogram(data, title, number_bins=400):
     printHistogramInformation(title, bins, counts)
     plt.show()
 
-# TracerGeorge
-showHistogram(PVTU_500_0['tracer'], 'PVTU_500_0: TracerGeorge-Histogram (Not Standardized)')
-showHistogram(PVTU_500_1['tracer'], 'PVTU_500_1: TracerGeorge-Histogram (Not Standardized)')
-showHistogram(PVTU_500_2['tracer'], 'PVTU_500_2: TracerGeorge-Histogram (Not Standardized)')
-showHistogram(PVTU_500_3['tracer'], 'PVTU_500_3: TracerGeorge-Histogram (Not Standardized)')
-showHistogram(PVTU_500_4['tracer'], 'PVTU_500_4: TracerGeorge-Histogram (Not Standardized)')
-showHistogram(PVTU_500_5['tracer'], 'PVTU_500_5: TracerGeorge-Histogram (Not Standardized)')
-showHistogram(PVTU_500_6['tracer'], 'PVTU_500_6: TracerGeorge-Histogram (Not Standardized)')
-showHistogram(PVTU_500_7['tracer'], 'PVTU_500_7: TracerGeorge-Histogram (Not Standardized)')
-showHistogram(PVTU_500_8['tracer'], 'PVTU_500_8: TracerGeorge-Histogram (Not Standardized)')
-showHistogram(PVTU_500_9['tracer'], 'PVTU_500_9: TracerGeorge-Histogram (Not Standardized)')
+# # Normalization vs standardization on the example of LSBU_500_3
+# showHistogram(LSBU_500_3_s['tracer'], 'LSBU_500_3: TracerGeorge-Histogram (Standardized)')
+# showHistogram(LSBU_500_3_n['tracer'], 'LSBU_500_3: TracerGeorge-Histogram (Normalized)')
 
-# # Tracer
+# # TracerGeorge (3 & 7)
+# showHistogram(tracer_george_500_3['tracer'], 'LSBU_500_3: TracerGeorge-Histogram (Not Standardized)')
+# showHistogram(tracer_george_500_7['tracer'], 'LSBU_500_7: TracerGeorge-Histogram (Not Standardized)')
+
+# # TracerGeorge (all regions)
+# showHistogram(tracer_george_500_0['tracer'], 'LSBU_500_0: TracerGeorge-Histogram (Not Standardized)')
+# showHistogram(tracer_george_500_1['tracer'], 'LSBU_500_1: TracerGeorge-Histogram (Not Standardized)')
+# showHistogram(tracer_george_500_2['tracer'], 'LSBU_500_2: TracerGeorge-Histogram (Not Standardized)')
+# showHistogram(tracer_george_500_3['tracer'], 'LSBU_500_3: TracerGeorge-Histogram (Not Standardized)')
+# showHistogram(tracer_george_500_4['tracer'], 'LSBU_500_4: TracerGeorge-Histogram (Not Standardized)')
+# showHistogram(tracer_george_500_5['tracer'], 'LSBU_500_5: TracerGeorge-Histogram (Not Standardized)')
+# showHistogram(tracer_george_500_6['tracer'], 'LSBU_500_6: TracerGeorge-Histogram (Not Standardized)')
+# showHistogram(tracer_george_500_7['tracer'], 'LSBU_500_7: TracerGeorge-Histogram (Not Standardized)')
+# showHistogram(tracer_george_500_8['tracer'], 'LSBU_500_8: TracerGeorge-Histogram (Not Standardized)')
+# showHistogram(tracer_george_500_9['tracer'], 'LSBU_500_9: TracerGeorge-Histogram (Not Standardized)')
+
+# # Tracer (test dataset)
 # showHistogram(average_not_stand['tracer'], 'Avg. Time: Tracer-Histogram (Not Standardized)')
 # showHistogram(time_500_not_stand['tracer'], 'Timestep 500: Tracer-Histogram (Not Standardized)')
 # showHistogram(time_500_stand['tracer'], 'Timestep 500: Tracer-Histogram (Standardized)')
 #
-# # Tracer Background
+# # Tracer Background (test dataset)
 # showHistogram(average_not_stand['tracer_background'], 'Avg. Time: TracerBackground-Histogram (Not Standardized)')
 # showHistogram(time_500_not_stand['tracer_background'], 'Timestep 500: TracerBackground-Histogram (Not Standardized)')
 # showHistogram(time_500_stand['tracer_background'], 'Timestep 500: TracerBackground-Histogram (Standardized)')
 #
-# # Pressure
+# # Pressure (test dataset)
 # showHistogram(average_not_stand['pressure'], 'Avg. Time: Pressure-Histogram (Not Standardized)')
 # showHistogram(time_500_not_stand['pressure'], 'Timestep 500: Pressure-Histogram (Not Standardized)')
 # showHistogram(time_500_stand['pressure'], 'Timestep 500: Pressure-Histogram (Standardized)')
 #
-# # Velocity Norm
+# # Velocity Norm (test dataset)
 # showHistogram(average_not_stand['velocity_norm'], 'Avg. Time: VelocityNorm-Histogram (Not Standardized)')
 # showHistogram(time_500_not_stand['velocity_norm'], 'Timestep 500: VelocityNorm-Histogram (Not Standardized)')
 # showHistogram(time_500_stand['velocity_norm'], 'Timestep 500: VelocityNorm-Histogram (Standardized)')
