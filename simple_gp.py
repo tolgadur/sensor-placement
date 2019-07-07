@@ -34,7 +34,7 @@ def getPossibleImpossible(pos):
     impossible = subtract_pos(pos, possible)
     return possible, impossible
 
-def getIndex(positions, y):
+def getIndex(positions, y): # improve!
     if np.any((positions[:] == y).all(1)):
         return np.where((positions == y).all(axis=1))[0][0]
     else:
@@ -85,49 +85,60 @@ def approximation1(cov, k, V, S, U): # parameters and variables were named like 
         remaining = subtract_pos(S, A)
         AHat = subtract_pos(V, A)
         delta = []
-
         for y in remaining:
             AHat = subtract_pos(AHat, y)
             delta.append(getMutualInformation(cov, V, y, A, AHat))
-
         i, v = max(enumerate(delta), key=operator.itemgetter(1))
+        print(remaining[i])
+        exit(0)
         A = np.concatenate((A, remaining[i]), axis=0)
     return A
 
 def approximation2(cov, k, V, S, U): # parameters and variables were named like in pseudo-code of paper
     A = np.empty((0, 3))
-    delta = []
+    delta = np.zeros((S.shape[0], 2))
     current = []
-    for y in S:
-        delta.append(math.inf)
-
+    for i, y in enumerate(S):
+        delta[i][0] = 0
+        delta[i][1] = i
     for j in range(0, k):
         remaining = subtract_pos(S, A)
+        delta_i = []
+        for k in A:
+            delta_i.append(getIndex(V, k))
+        AHat = subtract_pos(V, A)
         for y in remaining:
             current.append(False);
+            AHat = subtract_pos(AHat, y)
         while True:
-            i, v = max(enumerate(delta), key=operator.itemgetter(1)) # S\A instead of S
+            index = np.argmax(delta[:,0]) # how to do parital max ?!
+            i = delta[index]
+
+
             if current[i]:
                 break
             delta[i] = getMutualInformation(cov, V, y, A, AHat)
             current[i] = True;
+        print(V[i])
+        print(remaining[i2])
+        exit(0)
         A = np.concatenate((A, remaining[i]), axis=0)
     return A
 
-# def approximation3(cov, k, V, S, U): # parameters and variables were named like in pseudo-code of paper
-#     A = np.empty((0, 3))
-#     delta = []
-#     AHat = subtract_pos(V, A)
-#     for y in S:
-#         AHat = subtract_pos(AHat, y)
-#         delta.append(getMutualInformation(cov, V, y, A, AHat))
-#     for j in range(0, k):
-#         # yStar = argmaxyDeltay
-#         A = np.concatenate((A, y_star), axis=0)
-#         for  y in :
-#
-#
-#     return A
+def approximation3(cov, k, V, S, U): # parameters and variables were named like in pseudo-code of paper
+    A = np.empty((0, 3))
+    delta = []
+    AHat = subtract_pos(V, A)
+    for y in S:
+        AHat = subtract_pos(AHat, y)
+        delta.append(getMutualInformation(cov, V, y, A, AHat))
+
+    for j in range(0, k):
+        i, v = max(enumerate(delta), key=operator.itemgetter(1))
+        A = np.concatenate((A, S[i]), axis=0)
+        for y in :
+            # delta.append(getMutualInformation(cov, V, y, A, AHat))
+    return A
 
 ########################### Preparing data for GP ##############################
 
@@ -161,5 +172,5 @@ possible_3, impossible_3 = getPossibleImpossible(sample_pos_3)
 post_mean, post_cov = m.predict(sample_pos_3, full_cov=True)
 
 # find optimal sensor A with the first approximation function
-A = approximation1(post_cov, 9, sample_pos_3, possible_3, impossible_3)
+A = approximation2(post_cov, 9, sample_pos_3, possible_3, impossible_3)
 # A = approximation2(post_cov, 9, sample_pos, possible, impossible)

@@ -18,7 +18,7 @@ import vtktools
 #        OUTPUT: average_over_time.csv                                         #
 ################################################################################
 
-ug = vtktools.vtu('data/LSBU_raw/LSBU_500/LSBU_500_7.vtu')
+ug = vtktools.vtu('data/LSBU_raw/LSBU_200/LSBU_200_7.vtu')
 ug.GetFieldNames()
 pos = ug.GetLocations()
 tracer = ug.GetScalarField('TracerGeorge')
@@ -34,16 +34,16 @@ def getDF(pos, tracer_george):
 
 ######################## GET AVERAGE OVER TIMESTEPS ############################
 
-# for i in range(201, 989):
-#     last_index = i+1
-#     print('LSBU_'+str(i)+'.vtu')
-#     ug = vtktools.vtu('data/pvtu_raw/LSBU_'+str(i)'/LSBU_'+str(i)+'_3.vtu')
-#     ug.GetFieldNames()
-#     pos = ug.GetLocations()
-#
-#     tracer += ug.GetScalarField('TracerGeorge')
+for i in range(201, 507):
+    last_index = i+1
+    print('LSBU_'+str(i)+'.vtu')
+    ug = vtktools.vtu('data/LSBU_raw/LSBU_'+str(i)+'/LSBU_'+str(i)+'_7.vtu')
+    ug.GetFieldNames()
+    pos = ug.GetLocations()
 
-# tracer /= last_index
+    tracer += ug.GetScalarField('TracerGeorge')
+
+tracer /= last_index
 
 df = getDF(pos, tracer)
 
@@ -75,4 +75,4 @@ df['tracer'] = normalize(df, 'tracer')
 ######################### COMBINE AND SAVE DATA ################################
 
 print('Saving...')
-df.to_csv('data/csv_data/normalized/tracer_george/LSBU_500_7.csv', index=False)
+df.to_csv('data/csv_data/normalized/tracer_george/average_over_time_7.csv', index=False)
