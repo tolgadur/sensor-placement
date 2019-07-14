@@ -1,7 +1,8 @@
 #!/usr/bin/python
 import numpy as np
 import pandas as pd
-from SensorPlacement import SensorPlacement
+import GPy
+from sensor_placement import SensorPlacement
 
 
 """ FILE NAME: 'rbf_placement.py'
@@ -32,4 +33,6 @@ cov = k.K(V, V)
 """ Placement algorithm is called and the results are printed in the terminal. """
 # A = SensorPlacement.naiveSensorPlacement(cov, 5, V, index_sets)
 A = SensorPlacement.lazySensorPlacement(cov, 5, V, index_sets)
+# A = SensorPlacement.localKernelPlacement(cov, 5, V, index_sets)
+# A = SensorPlacement.localKernelLazyPlacement(cov, 5, V, index_sets)
 print(A)

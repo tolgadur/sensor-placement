@@ -26,8 +26,15 @@ pca = decomposition.PCA(0.95)
 tracer = pca.fit_transform(tracer)
 
 cov = np.cov(tracer)
+cov_inv = np.linalg.inv(cov)
+# print(cov)
+# print(cov_inv)
+# print(cov_inv.shape)
+# exit(0)
 
 """ Placement algorithm is called and the results are printed in the terminal. """
 # A = SensorPlacement.naiveSensorPlacement(cov, 5, V, index_sets)
 A = SensorPlacement.lazySensorPlacement(cov, 5, V, index_sets)
+# A = SensorPlacement.localKernelPlacement(cov, 5, V, index_sets)
+# A = SensorPlacement.localKernelLazyPlacement(cov, 5, V, index_sets)
 print(A)
