@@ -12,7 +12,7 @@ import vtktools
     DESCRIPTION: This file is loading and preparing the data from the raw fluidity
     files to panda dataframes that are then saved in csv files. Right now, the average
     value of every field over time is taken for each of the 100,080 positions.
-    INPUT: LSBU_200/ - LSBU_537/
+    INPUT: LSBU_0/ - LSBU_537/
 """
 
 def positionsCSV(pos):
@@ -35,19 +35,17 @@ def tracerMatrixCSV(tracer):
     """
     df = pd.DataFrame({'t1': tracer})
 
-    for i in range(201, 537):
+    for i in range(1, 537):
         print('LSBU_'+str(i)+'.vtu')
-        ug = vtktools.vtu('data/LSBU_32_RAW/LSBU_'+str(i)+'/LSBU_16.vtu')
+        ug = vtktools.vtu('data/LSBU_32_RAW/LSBU_'+str(i)+'/LSBU_'+str(i)+'_8.vtu')
         ug.GetFieldNames()
 
         tracer = ug.GetScalarField('TracerGeorge')
         df['t'+str(i-199)] = tracer
 
-    # add PCA / TSVD here...
-
     print('Saving Tracer CSV-File')
     print('DF Shape: ', df.shape)
-    df.to_csv('data/csv_data/tracerOverTime.csv', index=False)
+    df.to_csv('data/csv_data/tracer.csv', index=False)
 
 def positionAndTracerCSV(pos, tracer, average=True):
     """ This function that combines the numpy arrays with the position and tracer values
@@ -62,7 +60,7 @@ def positionAndTracerCSV(pos, tracer, average=True):
     df = pd.DataFrame({'X': pos[:, 0],
                        'Y': pos[:, 1],
                        'Z': pos[:, 2],
-                       'tracer': output})
+                       'tracer': tracer})
     if average:
         for i in range(201, 537):
             last_index = i+1
@@ -75,14 +73,14 @@ def positionAndTracerCSV(pos, tracer, average=True):
 
         tracer /= last_index
 
-    df = remove_outlier(df, 'tracer')
+    df = removeOutlier(df, 'tracer')
     df['tracer'] = normalize(df, 'tracer')
 
     print('Saving...')
     print('DF Shape: ', df.shape)
-    df.to_csv('data/csv_data/normalized/LSBU_32/average_over_time_16.csv', index=False)
+    df.to_csv('data/csv_data/area15.csv', index=False)
 
-def remove_outlier(df_in, col_name):
+def removeOutlier(df_in, col_name):
     """ This funtion drops all outliers in a pandas dataframe according to the
         specified column with the IQR method.
         Input:
@@ -102,6 +100,7 @@ def removeUnderFiftyMeters(df):
         Input:
         - df: dataframe that function should be applied at.
     """
+    # indices = df.index[df['Z'] > 50.01].tolist()
     return df.query('Z <= 50.01')
 
 def normalize(df, column):
@@ -121,7 +120,7 @@ def standardize(df, column):
     return (df[column]-df[column].mean()) / df[column].std()
 
 
-ug = vtktools.vtu('data/LSBU_32_RAW/LSBU_500/LSBU_16.vtu')
+ug = vtktools.vtu('data/LSBU_32_RAW/LSBU_0/LSBU_0_8.vtu')
 ug.GetFieldNames()
 
 pos = ug.GetLocations()

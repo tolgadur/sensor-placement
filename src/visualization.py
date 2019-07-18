@@ -6,8 +6,8 @@ import GPy
 
 """ FILE NAME: 'visualization.py'
     DESCRIPTION: This file is providing visualizations for the data used in this
-    project.
-
+    project. Particularly, it is used to assist the identification of areas with
+    sufficiently high tracer values to place sensors in.
 """
 
 def printHistogramInformation(title, bins, counts):
@@ -36,7 +36,11 @@ def showHistogram(data, title, number_bins=400):
     printHistogramInformation(title, bins, counts)
     plt.show()
 
-df16 = pd.read_csv('data/csv_data/normalized/LSBU_32/LSBU_500_16.csv')
-df17 = pd.read_csv('data/csv_data/normalized/LSBU_32/LSBU_500_17.csv')
-showHistogram(df16, 'LSBU_500_16')
-showHistogram(df17, 'LSBU_500_17')
+df6 = pd.read_csv('data/csv_data/area6.csv')
+df8 = pd.read_csv('data/csv_data/area8.csv')
+df10 = pd.read_csv('data/csv_data/area10.csv')
+df15 = pd.read_csv('data/csv_data/area15.csv')
+showHistogram(df6, 'LSBU_500_6')
+showHistogram(df8, 'LSBU_500_8')
+showHistogram(df6, 'LSBU_500_10')
+showHistogram(df8, 'LSBU_500_15')
