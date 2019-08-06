@@ -39,7 +39,7 @@ class SensorPlacement:
     @staticmethod
     def __conditionalVariance(cov, y, A):
         """ This function calculates the conditional variance of y given A. """
-        var = np.absolute(cov[y, y] - (cov[np.ix_([y], A)] @ np.linalg.inv(cov[np.ix_(A, A)]) @ cov[np.ix_(A, [y])]))
+        var = cov[y, y] - (cov[np.ix_([y], A)] @ np.linalg.inv(cov[np.ix_(A, A)]) @ cov[np.ix_(A, [y])])
         return var[0][0]
 
     @staticmethod
@@ -217,15 +217,16 @@ class SensorPlacement:
         """ Preparing the index arrays """
         V_df = pd.read_csv(position_file)
         V = V_df[['X', 'Y', 'Z']].copy().values
-        V = V[:100:2]
+        V = V[::2]
         V_i, S_i, U_i = SensorPlacement.__positionIndices(V)
 
         """ Preparing the sample covariance matrix """
         tracer_df = pd.read_csv(tracer_file)
         tracer = tracer_df.values
-        tracer = tracer[:100:2]
+        tracer = tracer[::2]
 
         cov = np.cov(tracer)
+        cov += 1e-8*np.eye(cov.shape[0])
 
         """ Executing algorithm """
         if algorithm_choice==1:
@@ -254,16 +255,18 @@ class SensorPlacement:
             """ Preparing the index arrays """
             V_df = pd.read_csv(position_files[i])
             V = V_df[['X', 'Y', 'Z']].copy().values
-            V = V[:100:2]
+            V = V[::2]
             V_, S_, U_ = SensorPlacement.__positionIndices(V)
             V_i.append(V_); S_i.append(S_); U_i.append(U_)
 
             """ Preparing the sample covariance matrix """
             tracer_df = pd.read_csv(tracer_files[i])
             tracer = tracer_df.values
-            tracer = tracer[:100:2]
+            tracer = tracer[::2]
 
-            cov.append(np.cov(tracer))
+            cov_ = np.cov(tracer)
+            cov_ += 1e-8*np.eye(cov_.shape[0])
+            cov.append(cov_)
 
         """ Choosing Algorithm """
         output = mp.Queue()
