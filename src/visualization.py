@@ -25,7 +25,7 @@ def showHistogram(data, title, number_bins=400):
     """ This function prints calculates and displays an histogram based on the
         inputted data.
         Input:
-        - data: data on which the histogram is calculated on.
+        - data: data on which the histogram is calculated on (1D - Array)
         - title: specifies the title of the histogram.
         - number_bins: specifies how many bins the histogram should have
     """
@@ -36,11 +36,10 @@ def showHistogram(data, title, number_bins=400):
     printHistogramInformation(title, bins, counts)
     plt.show()
 
-df6 = pd.read_csv('data/csv_data/area6.csv')
-df8 = pd.read_csv('data/csv_data/area8.csv')
-df10 = pd.read_csv('data/csv_data/area10.csv')
-df15 = pd.read_csv('data/csv_data/area15.csv')
-showHistogram(df6, 'LSBU_500_6')
-showHistogram(df8, 'LSBU_500_8')
-showHistogram(df6, 'LSBU_500_10')
-showHistogram(df8, 'LSBU_500_15')
+
+df6 = pd.read_csv('data/csv_data/area_6/tracer.csv')
+df8 = pd.read_csv('data/csv_data/area_8/tracer.csv')
+# print(df6.mean(axis=1).sort_values())
+# exit(0)
+showHistogram(df6.mean(axis=1), 'LSBU_500_6', 800)
+showHistogram(df8.mean(axis=1), 'LSBU_500_8', 800)
