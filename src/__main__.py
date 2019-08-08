@@ -19,16 +19,16 @@ def main():
     tracer_files = np.append(tracer_files, 'data/csv_data/area_6/tracer.csv')
     tracer_files = np.append(tracer_files, 'data/csv_data/area_8/tracer.csv')
 
-    # t0 = time()
-    # A = SensorPlacement.parallelPlacement(position_files, tracer_files, 1)
-    # t1 = time()
-    # print('The parallel placement algorithm takes ', (t1-t0), 'seconds')
-
     t0 = time()
-    A = SensorPlacement.simplePlacement('data/csv_data/area_8/positions.csv',
-                                        'data/csv_data/area_8/tracer.csv', 3)
+    A = SensorPlacement.parallelPlacement(position_files, tracer_files, algorithm_choice=2, already_placed=[[3], [2]])
     t1 = time()
-    print('The non-parallel placement algorithm takes ', (t1-t0), 'seconds')
+    print('The parallel placement algorithm takes ', (t1-t0), 'seconds')
+
+    # t0 = time()
+    # A = SensorPlacement.simplePlacement('data/csv_data/area_6/positions.csv',
+    #                                     'data/csv_data/area_6/tracer.csv', 4)
+    # t1 = time()
+    # print('The non-parallel placement algorithm takes ', (t1-t0), 'seconds')
 
     """ Printing the optimizing sensor placements """
     V_df = pd.read_csv(position_files[0])
@@ -37,10 +37,10 @@ def main():
     V_8 = V_df[['X', 'Y', 'Z']].copy().values
 
     print('-------------------------')
-    # print('Area 6: \n', V_6[A[0][1]])
-    # print('Area 8: \n', V_8[A[1][1]])
+    print('Area 6: \n', V_6[A[0][1]])
+    print('Area 8: \n', V_8[A[1][1]])
     # print(V_6[A])
-    print(V_8[A])
+    # print(V_8[A])
 
 if __name__== "__main__":
   main()
