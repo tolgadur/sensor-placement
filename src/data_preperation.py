@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import numpy as np
 import pandas as pd
+import sys
 from sklearn import preprocessing
 from scipy import stats
 
@@ -28,7 +29,7 @@ def positionsCSV(pos):
     print('DF Shape: ', df.shape)
     df.to_csv('data/csv_data/positions.csv', index=False)
 
-def tracerMatrixCSV(tracer):
+def tracerMatrixCSV(tracer, j):
     """ This function saves a CSV file with tracer values accross all timesteps.
         Input:
         - tracer:
@@ -36,12 +37,12 @@ def tracerMatrixCSV(tracer):
     df = pd.DataFrame({'t1': tracer})
 
     for i in range(1, 537):
-        print('LSBU_'+str(i)+'.vtu')
-        ug = vtktools.vtu('data/LSBU_32_RAW/LSBU_'+str(i)+'/LSBU_'+str(i)+'_8.vtu')
+        print('LSBU_'+str(i))
+        ug = vtktools.vtu('../LSBU32/LSBU_'+str(i)+'_'+str(j)+'.vtu')
         ug.GetFieldNames()
 
         tracer = ug.GetScalarField('TracerGeorge')
-        df['t'+str(i-199)] = tracer
+        df['t'+str(i)] = tracer
 
     print('Saving Tracer CSV-File')
     print('DF Shape: ', df.shape)
@@ -119,8 +120,7 @@ def standardize(df, column):
     """
     return (df[column]-df[column].mean()) / df[column].std()
 
-
-ug = vtktools.vtu('data/LSBU_32_RAW/LSBU_0/LSBU_0_8.vtu')
+ug = vtktools.vtu('../LSBU32/LSBU_0_'+str(sys.argv[1])+'.vtu')
 ug.GetFieldNames()
 
 pos = ug.GetLocations()
@@ -128,4 +128,4 @@ tracer = ug.GetScalarField('TracerGeorge')
 
 # positionAndTracerCSV(pos, tracer)
 positionsCSV(pos)
-tracerMatrixCSV(tracer)
+tracerMatrixCSV(tracer, sys.argv[1])

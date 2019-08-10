@@ -205,7 +205,7 @@ class SensorPlacement:
         return A
 
     @staticmethod
-    def simplePlacement(position_file, tracer_file, algorithm_choice=None, already_placed=np.array([])):
+    def simplePlacement(position_file, tracer_file, k, algorithm_choice=None, already_placed=np.array([])):
         """ This function computes the optimal sensor placement on one area.
             Input:
             - position_file: Filepath to the position file (has to be a csv-file)
@@ -229,16 +229,16 @@ class SensorPlacement:
 
         """ Executing algorithm """
         if algorithm_choice==1:
-            return SensorPlacement.naiveSensorPlacement(cov, 4, V_i, S_i, U_i, already_placed)
+            return SensorPlacement.naiveSensorPlacement(cov, k, V_i, S_i, U_i, already_placed)
         elif algorithm_choice==2:
-            return SensorPlacement.lazySensorPlacement(cov, 4, V_i, S_i, U_i, already_placed)
+            return SensorPlacement.lazySensorPlacement(cov, k, V_i, S_i, U_i, already_placed)
         elif algorithm_choice==3:
-            return SensorPlacement.localKernelPlacement(cov, 4, V_i, S_i, U_i, already_placed)
+            return SensorPlacement.localKernelPlacement(cov, k, V_i, S_i, U_i, already_placed)
         else:
-            return SensorPlacement.lazyLocalKernelPlacement(cov, 4, V_i, S_i, U_i, already_placed)
+            return SensorPlacement.lazyLocalKernelPlacement(cov, k, V_i, S_i, U_i, already_placed)
 
     @staticmethod
-    def parallelPlacement(position_files, tracer_files, algorithm_choice=None, already_placed=None):
+    def parallelPlacement(position_files, tracer_files, k, algorithm_choice=None, already_placed=None):
         """ This function is used to compute the sensor placement on multiple areas
             concurrently using the multiprocessing library of python. NOTE: The tracer
             files and position files have to correspont to each other. This means
@@ -271,16 +271,16 @@ class SensorPlacement:
 
         if algorithm_choice==1:
             processes = [mp.Process(target=SensorPlacement.naiveSensorPlacement,
-                                    args=(cov[x], 4, V_i[x], S_i[x], U_i[x], already_placed[x], x, output)) for x in range(len(cov))]
+                                    args=(cov[x], k, V_i[x], S_i[x], U_i[x], already_placed[x], x, output)) for x in range(len(cov))]
         elif algorithm_choice==2:
             processes = [mp.Process(target=SensorPlacement.lazySensorPlacement,
-                                    args=(cov[x], 4, V_i[x], S_i[x], U_i[x], already_placed[x], x, output)) for x in range(len(cov))]
+                                    args=(cov[x], k, V_i[x], S_i[x], U_i[x], already_placed[x], x, output)) for x in range(len(cov))]
         elif algorithm_choice==3:
             processes = [mp.Process(target=SensorPlacement.localKernelPlacement,
-                                    args=(cov[x], 4, V_i[x], S_i[x], U_i[x], already_placed[x], x, output)) for x in range(len(cov))]
+                                    args=(cov[x], k, V_i[x], S_i[x], U_i[x], already_placed[x], x, output)) for x in range(len(cov))]
         else:
             processes = [mp.Process(target=SensorPlacement.lazyLocalKernelPlacement,
-                                    args=(cov[x], 4, V_i[x], S_i[x], U_i[x], already_placed[x], x, output)) for x in range(len(cov))]
+                                    args=(cov[x], k, V_i[x], S_i[x], U_i[x], already_placed[x], x, output)) for x in range(len(cov))]
 
         """ Algorithm starts computing for all areas in parallel """
         for p in processes:
