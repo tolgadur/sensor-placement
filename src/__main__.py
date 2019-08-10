@@ -13,39 +13,27 @@ from time import time
 """
 
 def main():
+    """ Defining file paths and calling functions to optimize sensor placement """
+    t0 = time()
+    A = MagicProject.parallelPlacement(areas=[1, 2], k=4, algorithm_choice=4)
+    t1 = time()
+    print('The parallel placement algorithm takes ', (t1-t0), 'seconds')
 
-    A  = MagicProject.simplePlacement(area=1, k=4, algorithm_choice=4)
-
-    # """ Defining file paths and calling functions to optimize sensor placement """
-    # position_files, tracer_files = np.array([]), np.array([])
-    # position_files = np.append(position_files, 'data/csv_data/area_6/positions.csv')
-    # position_files = np.append(position_files, 'data/csv_data/area_8/positions.csv')
-    # tracer_files = np.append(tracer_files, 'data/csv_data/area_6/tracer.csv')
-    # tracer_files = np.append(tracer_files, 'data/csv_data/area_8/tracer.csv')
-    #
-    # # t0 = time()
-    # # A = SensorPlacement.parallelPlacement(position_files, tracer_files, k=4, algorithm_choice=4, already_placed=[[8593, 1982, 12475, 11180], [6164, 11667, 10653, 5637]])
-    # # t1 = time()
-    # # print('The parallel placement algorithm takes ', (t1-t0), 'seconds')
-    #
-    #
     # t0 = time()
-    # A = SensorPlacement.simplePlacement('data/csv_data/area_6/positions.csv',
-    #                                     'data/csv_data/area_6/tracer.csv', 4, already_placed=[0, 7])
+    # # A = MagicProject.simplePlacement(area=1, k=4, algorithm_choice=4)
     # t1 = time()
     # print('The non-parallel placement algorithm takes ', (t1-t0), 'seconds')
-    #
+
     """ Printing the optimizing sensor placements """
-    V_df = pd.read_csv(position_files[0])
-    V_6 = V_df[['X', 'Y', 'Z']].copy().values
-    V_df = pd.read_csv(position_files[1])
-    V_8 = V_df[['X', 'Y', 'Z']].copy().values
+    V1_df = pd.read_csv('data/csv_data/area_1/positions.csv')
+    V2_df = pd.read_csv('data/csv_data/area_2/positions.csv')
+    V1= V1_df[['X', 'Y', 'Z']].copy().values
+    V2= V2_df[['X', 'Y', 'Z']].copy().values
 
     print('-------------------------')
-    # print('Area 6: \n', V_6[A[0][1]])
-    # print('Area 8: \n', V_8[A[1][1]])
-    # print(V_6[A])
-    print(V_8[A])
+    print('Area 6: \n', V1[A[0][1]])
+    print('Area 8: \n', V2[A[1][1]])
+    # print(V1[A])
 
 if __name__== "__main__":
   main()

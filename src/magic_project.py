@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import numpy as np
 import pandas as pd
+import multiprocessing as mp
 from sensor_placement import SensorPlacement
 
 """ FILE NAME: 'magic_project.py'
@@ -95,7 +96,7 @@ class MagicProject:
             - tracer_files: Array with the filepaths to the tracer files (have to be csv-files)
         """
         print('Starting parallel placement...', flush=True)
-        already_placed = [np.array([])]*len(position_files) if already_placed==None else already_placed
+        already_placed = [np.array([])]*len(areas) if already_placed==None else already_placed
 
         V_i, S_i, U_i, cov = [], [], [], []
         for i in areas:
