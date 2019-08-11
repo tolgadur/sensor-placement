@@ -9,15 +9,23 @@ from pprint import pprint
 
 """ FILE NAME: 'sensor_placement.py'
     DESCRIPTION: This file is implementing the class that will be used for sensor
-    positioning according to solution proposed by Krause, Singh and Guestrin (2008)
-    on the MAGIC testside in Elephant and Castle.
+    positioning according to solution proposed by Krause, Singh and Guestrin (2008).
 """
 
 class SensorPlacement:
     @staticmethod
     def __isMonotonic(cov, k, V, S, U):
+        """ This function checks if values in the dataset are monotonic or not. For
+            datasets > 2000 observations, non-monotonicity might lead to suboptimal
+            results.
+            Input:
+            - cov: covariance matrix
+            - k: number of Sensors to be placed
+            - V: indices of all position
+            - S: indices of all possible sensor positions
+            - U: indices of all impossible sensor positions
+        """
         A = np.array([])
-
         for j in range(k):
             S_A = np.setdiff1d(S, A).astype(int)
             for y in S_A:
@@ -42,11 +50,15 @@ class SensorPlacement:
 
     @staticmethod
     def __localConditionalEntropy(cov, y, A, epsilon):
+        """ This function calculates the conditional entropy of y given A for
+            all values where cov[y, A] > epsilon. """
         A_ = SensorPlacement.__localSet(cov, y, A, epsilon)
         return SensorPlacement.__conditionalEntropy(cov, y, A_)
 
     @staticmethod
     def __localConditionalVariance(cov, y, A, epsilon):
+        """ This function calculates the conditional variance of y given A for
+            all values where cov[y, A] > epsilon. """
         A_ = SensorPlacement.__localSet(cov, y, A, epsilon)
         return SensorPlacement.__conditionalVariance(cov, y, A_)
 

@@ -6,69 +6,75 @@ from matplotlib import pyplot as plt
 from sensor_placement import SensorPlacement
 
 """ FILE NAME: 'magic_project.py'
-    DESCRIPTION: This file is implementing the class that will be used for sensor
-    positioning
+    DESCRIPTION: This file is implementing the class that serves as the API for the
+    sensor placement in the Magic test-side in Elephant and Castle. It assumes that
+    the position and tracer values are saved in csv-files in the subfolder
+    '/data/csv_data/area_i/'. If this is not the case then 'dataPreparation.py'
+    should be run before with the vtu files.
 """
 
 class MagicProject:
-
-
     @staticmethod
     def __positionIndices(V):
+        """ This helper function separates all positions into placeable and
+            and unplaceable positions. The condition is hardcoded: all positions
+            higher than 30m are unplacable. The rest is placeable.
+            Input:
+            - V: array with all positions
+        """
         V_i = np.array(range(len(V)))
         S_i = np.argwhere(V[:,2]<=30.0).flatten()
         U_i = np.setdiff1d(V_i, S_i, assume_unique=True)
         return V_i, S_i, U_i
 
     @staticmethod
-    def __all_areas():
+    def __allAreas():
+        """ This function loads and concatenates the csv-files of all areas into
+            two large dataframes.
+        """
         V_df = pd.read_csv('data/csv_data/area_0/positions.csv')
         tracer_df = pd.read_csv('data/csv_data/area_0/tracer.csv')
         for i in range(31):
             position_file = 'data/csv_data/area_'+str(i)+'/positions.csv'
             tracer_file = 'data/csv_data/area_'+str(i)+'/tracer.csv'
 
-            V_df = pd.concat([V_df, pd.read_csv(position_file)])
-            tracer_df = pd.concat([tracer_df, pd.read_csv(tracer_file)])
+            V_df = pd.concat([V_df, pd.read_csv(position_file)], sort=False)
+            tracer_df = pd.concat([tracer_df, pd.read_csv(tracer_file)], sort=False)
 
-        """ Preparing index arrays """
-        V = V_df[['X', 'Y', 'Z']].copy().values
-        V = V[:100:2]
-        V_i, S_i, U_i = MagicProject.__positionIndices(V)
-
-        """ Preparing tracer matrix """
-        tracer = tracer_df.values
-        tracer = tracer[:100:2]
-
-        return tracer, V_i, S_i, U_i
+        return V_df, tracer_df
 
     @staticmethod
     def __dataPreperation(area):
+        """ This helper function prepares the data in the format that is required for
+            the sensor placement algorithms.
+            Input:
+            - area: integers in range [0,31] indicating the area we are interested in
+        """
         if area==-1:
-            return MagicProject.__all_areas()
+            V_df, tracer_df = MagicProject.__allAreas()
+        else:
+            position_file = 'data/csv_data/area_'+str(area)+'/positions.csv'
+            tracer_file = 'data/csv_data/area_'+str(area)+'/tracer.csv'
+            V_df = pd.read_csv(position_file)
+            tracer_df = pd.read_csv(tracer_file)
 
-        position_file = 'data/csv_data/area_'+str(area)+'/positions.csv'
-        tracer_file = 'data/csv_data/area_'+str(area)+'/tracer.csv'
 
         """ Preparing index arrays """
-        V_df = pd.read_csv(position_file)
         V = V_df[['X', 'Y', 'Z']].copy().values
         V = V[:100:2]
         V_i, S_i, U_i = MagicProject.__positionIndices(V)
 
         """ Preparing tracer matrix """
-        tracer_df = pd.read_csv(tracer_file)
         tracer = tracer_df.values
         tracer = tracer[:100:2]
 
         return tracer, V_i, S_i, U_i
 
-    def showHistogram(area, number_bins=600):
+    def plotHistogram(area, number_bins=600):
         """ This function prints calculates and displays an histogram based on the
             inputted data.
             Input:
-            - data: data on which the histogram is calculated on (1D - Array)
-            - title: specifies the title of the histogram.
+            - area: integers in range [0,31] indicating the area to plot the histogram of
             - number_bins: specifies how many bins the histogram should have
         """
         df = pd.read_csv('data/csv_data/area_'+str(area)+'/tracer.csv')
@@ -88,14 +94,15 @@ class MagicProject:
     def simplePlacement(area, k=4, algorithm_choice=None, already_placed=np.array([])):
         """ This function computes the optimal sensor placement on one area.
             Input:
-            - position_file: Filepath to the position file (has to be a csv-file)
-            - tracer_file: Filepath to the tracer file (has to be a csv-file)
-            - algorithm_choice: Integer specifying which approximation algorithm the sensor
+            - area: integers in range [0,31] indicating the area to place sensors in
+            - k: number of sensors to be placed
+            - algorithm_choice: integer specifying which approximation algorithm the sensor
               positions are calculated with. '1' == naive, '2' == priority queue,
               'default' == local kernel.
+            - already_placed: array with already placed sensors
         """
         print('Starting sensor placement...', flush=True)
-        tracer, V_i, S_i, U_i = MagicProject.__data_preperation(area)
+        tracer, V_i, S_i, U_i = MagicProject.__dataPreperation(area)
         cov = np.cov(tracer)
 
         """ Choosing and executing algorithm """
@@ -116,15 +123,19 @@ class MagicProject:
             that the tracer file at position 1, for instance, has to describe the
             same area as the position file at position 1.
             Input:
-            - position_files: Array with the filepaths to the position files (have to be csv-files)
-            - tracer_files: Array with the filepaths to the tracer files (have to be csv-files)
+            - areas: array of integers in range [0,31] indicating the areas to place sensors in
+            - k: number of sensors to be placed
+            - algorithm_choice: integer specifying which approximation algorithm the sensor
+              positions are calculated with. '1' == naive, '2' == priority queue,
+              'default' == local kernel.
+            - already_placed: array with already placed sensors
         """
         print('Starting parallel placement...', flush=True)
         already_placed = [np.array([])]*len(areas) if already_placed==None else already_placed
 
         V_i, S_i, U_i, cov = [], [], [], []
         for i in areas:
-            tracer, V_, S_, U_ = MagicProject.__data_preperation(i)
+            tracer, V_, S_, U_ = MagicProject.__dataPreperation(i)
             V_i.append(V_); S_i.append(S_); U_i.append(U_)
             cov.append(np.cov(tracer))
 

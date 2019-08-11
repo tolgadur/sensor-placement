@@ -8,13 +8,11 @@ from time import time
 """ FILE NAME: '__main__.py'
     DESCRIPTION: This file is implementing the sensor positioning solution proposed
     by Krause, Singh and Guestrin (2008) on the MAGIC testside in Elephant and Castle.
-    This implementation uses a sample calculated that is calculated after applying PCA
-    on the timesteps. 95% of the variance is hereby preserved.
 """
 
 def main():
     """ Defining file paths and calling functions to optimize sensor placement """
-    # MagicProject.showHistogram(area=1)
+    # MagicProject.plotHistogram(area=1)
 
     t0 = time()
     A = MagicProject.parallelPlacement(areas=[1, 2], k=4, algorithm_choice=4)

@@ -11,9 +11,7 @@ import vtktools
 
 """ FILE NAME: 'data_preperation.py'
     DESCRIPTION: This file is loading and preparing the data from the raw fluidity
-    files to panda dataframes that are then saved in csv files. Right now, the average
-    value of every field over time is taken for each of the 100,080 positions.
-    INPUT: LSBU_0/ - LSBU_537/
+    files to panda dataframes that are then saved in csv files.
 """
 
 def positionsCSV(pos):
