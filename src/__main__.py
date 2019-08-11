@@ -14,6 +14,8 @@ from time import time
 
 def main():
     """ Defining file paths and calling functions to optimize sensor placement """
+    # MagicProject.showHistogram(area=1)
+
     t0 = time()
     A = MagicProject.parallelPlacement(areas=[1, 2], k=4, algorithm_choice=4)
     t1 = time()

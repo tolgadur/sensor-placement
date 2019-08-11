@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 import multiprocessing as mp
+from matplotlib import pyplot as plt
 from sensor_placement import SensorPlacement
 
 """ FILE NAME: 'magic_project.py'
@@ -10,6 +11,8 @@ from sensor_placement import SensorPlacement
 """
 
 class MagicProject:
+
+
     @staticmethod
     def __positionIndices(V):
         V_i = np.array(range(len(V)))
@@ -40,7 +43,7 @@ class MagicProject:
         return tracer, V_i, S_i, U_i
 
     @staticmethod
-    def __data_preperation(area):
+    def __dataPreperation(area):
         if area==-1:
             return MagicProject.__all_areas()
 
@@ -59,6 +62,27 @@ class MagicProject:
         tracer = tracer[:100:2]
 
         return tracer, V_i, S_i, U_i
+
+    def showHistogram(area, number_bins=600):
+        """ This function prints calculates and displays an histogram based on the
+            inputted data.
+            Input:
+            - data: data on which the histogram is calculated on (1D - Array)
+            - title: specifies the title of the histogram.
+            - number_bins: specifies how many bins the histogram should have
+        """
+        df = pd.read_csv('data/csv_data/area_'+str(area)+'/tracer.csv')
+        data = df.mean(axis=1)
+        plt.figure(figsize=(10, 4))
+        counts, bins = np.histogram(data, bins=number_bins)
+        plt.title('LSBU32_'+str(area)+'. Number of bins: '+str(number_bins))
+        plt.hist(bins[:-1], bins, weights=counts)
+        plt.show()
+
+        """ Printing histogram information on shell """
+        print('LSBU32_'+str(area)+':\n')
+        print('Bins:\n', bins, '\n')
+        print('counts:\n', counts, '\n')
 
     @staticmethod
     def simplePlacement(area, k=4, algorithm_choice=None, already_placed=np.array([])):
