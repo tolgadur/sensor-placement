@@ -114,7 +114,7 @@ class MagicProject:
         return tracer, V_i, S_i, U_i
 
     @staticmethod
-    def simplePlacement(area, k=4, algorithm=None, placed=np.array([])):
+    def simplePlacement(area, k=4, algorithm=None, placed=np.array([], dtype=int)):
         """ This function computes the optimal sensor placement on one area.
             Input:
             - area: integers in range [0,31] indicating the area to place sensors in
@@ -154,7 +154,7 @@ class MagicProject:
             - placed: array with already placed sensors
         """
         print('Starting parallel placement...', flush=True)
-        placed = [np.array([])]*len(areas) if placed==None else placed
+        placed = [np.array([], dtype=int)]*len(areas) if placed==None else placed
 
         V_i, S_i, U_i, cov = [], [], [], []
         for i in areas:
