@@ -18,20 +18,20 @@ sys.path.append('fluidity-master')
 import vtktools
 
 
-ntime = 3000
-ntimelocal = 500
+ntime = 537
+ntimelocal = 537
 
 
 
 
 
-indLoc = np.loadtxt('localpoints.txt')
+indLoc = np.loadtxt('localpoints.txt') # indexes of nodes
 
 NindLoc = len(indLoc)
 
 uvwTot = np.array([])
 for i in range(ntimelocal):
-    filename = '/home/rarcucci/WindTunnel/Projected_Normal_'+str(i+1)+'.vtu'
+    filename = '/home/rarcucci/WindTunnel/Projected_Normal_'+str(i+1)+'.vtu' # path to all vtu files
     ug=vtktools.vtu(filename)
     ug.GetFieldNames()
     xFluidity = ug.GetScalarField('Tracer1')
@@ -78,7 +78,7 @@ lam = 1e-60
 
 #put the observation file (time step 988)
 
-ugg=vtktools.vtu('/home/rarcucci/WindTunnel/WTobserv/TracerWT400.vtu')
+ugg=vtktools.vtu('/home/rarcucci/WindTunnel/WTobserv/TracerWT400.vtu') #the last one
 ugg.GetFieldNames()
 uvwVecobstot = ugg.GetScalarField('n2_TracerFluidity_WT')
 uvwVecobs = np.array([])
@@ -92,7 +92,7 @@ for i in range(NindLoc):
 #put the background (time step 100)
 
 nstobs = len(uvwVecobs)
-ug=vtktools.vtu('/home/rarcucci/WindTunnel/Projected_Normal_400.vtu')
+ug=vtktools.vtu('/home/rarcucci/WindTunnel/Projected_Normal_400.vtu') # time step 100 or 200
 ug.GetFieldNames()
 uvwVectot = ug.GetScalarField('Tracer1')
 nRec = len(uvwVectot)
@@ -182,7 +182,7 @@ for j in range(NindLoc):
 abserrxBtot = np.absolute(errxBtot)
 
 ug.AddScalarField('u_0^M - u_C', abserrxBtot)
-ug.Write('/home/rarcucci/DAWindTunnel/Results/abserruM400-local.vtu')
+ug.Write('/home/rarcucci/DAWindTunnel/Results/abserruM400-local.vtu') # create result folder and
 
 
 errxDAtot = np.array([])
@@ -229,4 +229,4 @@ ug.Write('/home/rarcucci/DAWindTunnel/Results/uDA400-local.vtu')
 xBtot = uvwVectot.copy()
 
 ug.AddScalarField('uM', xBtot)
-ug.Write('/home
+ug.Write('/home') # result folder  

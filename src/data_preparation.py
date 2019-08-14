@@ -39,12 +39,13 @@ def tracerMatrixCSV(tracer, j):
         ug = vtktools.vtu('../LSBU32/LSBU_'+str(i)+'_'+str(j)+'.vtu')
         ug.GetFieldNames()
 
-        tracer = ug.GetScalarField('TracerGeorge')
+        tracer = ug.GetScalarField('TracerFront')
+        tracer += ug.GetScalarField('TracerBlackfriars')
         df['t'+str(i)] = tracer
 
     print('Saving Tracer CSV-File')
     print('DF Shape: ', df.shape)
-    df.to_csv('data/csv_data/tracer.csv', index=False)
+    df.to_csv('data/csv_data/tracer_front_blackfriars.csv', index=False)
 
 def positionAndTracerCSV(pos, tracer, average=True):
     """ This function that combines the numpy arrays with the position and tracer values
@@ -121,9 +122,10 @@ def standardize(df, column):
 ug = vtktools.vtu('../LSBU32/LSBU_0_'+str(sys.argv[1])+'.vtu')
 ug.GetFieldNames()
 
-pos = ug.GetLocations()
-tracer = ug.GetScalarField('TracerGeorge')
+# pos = ug.GetLocations()
+tracer = ug.GetScalarField('TracerFront')
+tracer += ug.GetScalarField('TracerBlackfriars')
 
 # positionAndTracerCSV(pos, tracer)
-positionsCSV(pos)
+# positionsCSV(pos)
 tracerMatrixCSV(tracer, sys.argv[1])

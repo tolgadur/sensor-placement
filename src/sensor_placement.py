@@ -14,7 +14,7 @@ from pprint import pprint
 
 class SensorPlacement:
     @staticmethod
-    def __isMonotonic(cov, k, V, S, U):
+    def isMonotonic(cov, k, V, S, U):
         """ This function checks if values in the dataset are monotonic or not. For
             datasets > 2000 observations, non-monotonicity might lead to suboptimal
             results.
