@@ -25,14 +25,12 @@ ntimelocal = 536
 
 
 
-indLoc = np.loadtxt('./solutions/LSBU32/area_6_8/solution_6.txt') # indexes of nodes
+indLoc = np.loadtxt('./solutions/LSBU32/sub-domain_6_8/solution_6.txt') # indexes of nodes
 
 NindLoc = len(indLoc)
 
 uvwTot = np.array([])
 for i in range(ntimelocal):
-    print(i)
-
     filename = './data/raw_data/sub-domains/LSBU_*_6/LSBU_'+str(i+1)+'_6.vtu' # path to all vtu files
     ug=vtktools.vtu(filename)
     ug.GetFieldNames()
@@ -78,11 +76,11 @@ V = X.copy()
 lam = 1e-60
 
 
-#put the observation file (time step 988)
+#put the observation file (time step 536)
 
 ugg=vtktools.vtu('./data/raw_data/sub-domains/LSBU_*_6/LSBU_536_6.vtu') #the last one
 ugg.GetFieldNames()
-uvwVecobstot = ugg.GetScalarField('n2_TracerFluidity_WT')
+uvwVecobstot = ugg.GetScalarField('TracerGeorge') # n2_TracerFluidity_WT?
 uvwVecobs = np.array([])
 for i in range(NindLoc):
     indexLocal = indLoc[i]
@@ -94,9 +92,9 @@ for i in range(NindLoc):
 #put the background (time step 100)
 
 nstobs = len(uvwVecobs)
-ug=vtktools.vtu('./data/raw_data/sub-domains/LSBU_*_6/LSBU_200_6.vtu.vtu') # time step 100 or 200
+ug=vtktools.vtu('./data/raw_data/sub-domains/LSBU_*_6/LSBU_200_6.vtu') # time step 100 or 200
 ug.GetFieldNames()
-uvwVectot = ug.GetScalarField('Tracer1')
+uvwVectot = ug.GetScalarField('TracerGeorge')
 nRec = len(uvwVectot)
 uvwVec = np.array([])
 for i in range(NindLoc):
