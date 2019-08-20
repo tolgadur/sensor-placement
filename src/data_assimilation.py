@@ -18,23 +18,25 @@ sys.path.append('fluidity-master')
 import vtktools
 
 
-ntime = 537
-ntimelocal = 537
+ntime = 536
+ntimelocal = 536
 
 
 
 
 
-indLoc = np.loadtxt('localpoints.txt') # indexes of nodes
+indLoc = np.loadtxt('./solutions/LSBU32/area_6_8/solution_6.txt') # indexes of nodes
 
 NindLoc = len(indLoc)
 
 uvwTot = np.array([])
 for i in range(ntimelocal):
-    filename = '/home/rarcucci/WindTunnel/Projected_Normal_'+str(i+1)+'.vtu' # path to all vtu files
+    print(i)
+
+    filename = './data/raw_data/sub-domains/LSBU_*_6/LSBU_'+str(i+1)+'_6.vtu' # path to all vtu files
     ug=vtktools.vtu(filename)
     ug.GetFieldNames()
-    xFluidity = ug.GetScalarField('Tracer1')
+    xFluidity = ug.GetScalarField('TracerGeorge') # Output variable
     xMLocal = np.array([])
     for j in range(NindLoc):
         indexLocal = indLoc[j]
@@ -69,7 +71,7 @@ W =  np.transpose(np.reshape(err, (ntime,n)))
 trnc=n-1
 Utrunc, strunc, Wtrunc = svds(W, k=trnc)
 X = Utrunc.dot(np.diag(np.sqrt(strunc)))
-np.savetxt("/home/rarcucci/DAWindTunnel/Results/matrixVpreclocal"+str(trnc)+".txt", X)
+np.savetxt("./validation/matrixVpreclocal"+str(trnc)+".txt", X)
 
 V = X.copy()
 
@@ -78,7 +80,7 @@ lam = 1e-60
 
 #put the observation file (time step 988)
 
-ugg=vtktools.vtu('/home/rarcucci/WindTunnel/WTobserv/TracerWT400.vtu') #the last one
+ugg=vtktools.vtu('./data/raw_data/sub-domains/LSBU_*_6/LSBU_536_6.vtu') #the last one
 ugg.GetFieldNames()
 uvwVecobstot = ugg.GetScalarField('n2_TracerFluidity_WT')
 uvwVecobs = np.array([])
@@ -92,7 +94,7 @@ for i in range(NindLoc):
 #put the background (time step 100)
 
 nstobs = len(uvwVecobs)
-ug=vtktools.vtu('/home/rarcucci/WindTunnel/Projected_Normal_400.vtu') # time step 100 or 200
+ug=vtktools.vtu('./data/raw_data/sub-domains/LSBU_*_6/LSBU_200_6.vtu.vtu') # time step 100 or 200
 ug.GetFieldNames()
 uvwVectot = ug.GetScalarField('Tracer1')
 nRec = len(uvwVectot)
@@ -182,7 +184,7 @@ for j in range(NindLoc):
 abserrxBtot = np.absolute(errxBtot)
 
 ug.AddScalarField('u_0^M - u_C', abserrxBtot)
-ug.Write('/home/rarcucci/DAWindTunnel/Results/abserruM400-local.vtu') # create result folder and
+ug.Write('./validation/abserruM400-local.vtu') # create result folder and
 
 
 errxDAtot = np.array([])
@@ -197,7 +199,7 @@ for j in range(NindLoc):
 abserrxDAtot = np.absolute(errxDAtot)
 
 ug.AddScalarField('u^DA - u_C', abserrxDAtot)
-ug.Write('/home/rarcucci/DAWindTunnel/Results/abserruDA400-local.vtu')
+ug.Write('./validation/abserruDA400-local.vtu')
 
 
 errxDAtot = np.array([])
@@ -212,7 +214,7 @@ for j in range(NindLoc):
 abserrxDAtot = np.absolute(errxDAtot)
 
 ug.AddScalarField('u^DA - u_C', abserrxDAtot)
-ug.Write('/home/rarcucci/DAWindTunnel/Results/abserruDA400-local.vtu')
+ug.Write('./validation/abserruDA400-local.vtu')
 
 
 xDAtot = uvwVectot.copy()
@@ -223,10 +225,10 @@ for j in range(NindLoc):
     xDAtot[indexLocal] = xDA[j]
 
 ug.AddScalarField('uDA', xDAtot)
-ug.Write('/home/rarcucci/DAWindTunnel/Results/uDA400-local.vtu')
+ug.Write('./validation/uDA400-local.vtu')
 
 
 xBtot = uvwVectot.copy()
 
-ug.AddScalarField('uM', xBtot)
-ug.Write('/home') # result folder  
+# ug.AddScalarField('uM', xBtot)
+# ug.Write('/home') # result folder
