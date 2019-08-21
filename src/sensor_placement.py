@@ -97,8 +97,8 @@ class SensorPlacement:
             A = np.append(A, y_star).astype(int)
             print('subdomain ', subdomain, ': ', A, flush=True)
         if subdomain != None:
-            output.put((subdomain, A))
-        return A
+            output.put((subdomain, 2*A))
+        return 2*A
 
     @staticmethod
     def lazySensorPlacement(cov, k, V, S, U, A, subdomain=None, output=None):
@@ -130,10 +130,10 @@ class SensorPlacement:
                 heapq.heappush(heap, (-1 * criterion, y_star, j))
 
             A = np.append(A, y_star).astype(int)
-            print('subdomain ', subdomain, ': ', A, flush=True)
+            print('subdomain ', subdomain, ': ', 2*A, flush=True)
         if subdomain != None:
-            output.put((subdomain, A))
-        return A
+            output.put((subdomain, 2*A))
+        return 2*A
 
     @staticmethod
     def localKernelPlacement(cov, k, V, S, U, A, subdomain=None, output=None):
@@ -170,8 +170,8 @@ class SensorPlacement:
                                          SensorPlacement.__localConditionalVariance(cov, y, AHat, epsilon))
 
         if subdomain != None:
-            output.put((subdomain, A))
-        return A
+            output.put((subdomain, 2*A))
+        return 2*A
 
     @staticmethod
     def lazyLocalKernelPlacement(cov, k, V, S, U, A, subdomain=None, output=None):
@@ -205,5 +205,5 @@ class SensorPlacement:
             A = np.append(A, y_star).astype(int)
             print('subdomain ', subdomain, ': ', A, flush=True)
         if subdomain != None:
-            output.put((subdomain, A))
-        return A
+            output.put((subdomain, 2*A))
+        return 2*A

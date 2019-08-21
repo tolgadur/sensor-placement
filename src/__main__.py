@@ -27,14 +27,11 @@ def main():
     print('The non-parallel placement algorithm takes ', (t1-t0), 'seconds')
 
     """ Printing the optimizing sensor placements """
-    V1_df = pd.read_csv('data/csv_data/subdomain_15/positions.csv')
+    V1_df = pd.read_csv('data/csv_data/subdomain_19/positions.csv')
     V1 = V1_df[['X', 'Y', 'Z']].copy().values
-    V1 = V1[::2]
     # V2_df = pd.read_csv('data/csv_data/subdomain_8/positions.csv')
     # V2 = V2_df[['X', 'Y', 'Z']].copy().values
-    #V2 = V2[::2]
 
-    # A = [7907, 6798, 9581, 10825]
     print('-------------------------')
     # print('subdomain 6: \n', V1[A[0][1]])
     # print('subdomain 8: \n', V2[A[1][1]])

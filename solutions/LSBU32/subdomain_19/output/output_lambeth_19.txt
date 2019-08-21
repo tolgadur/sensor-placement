@@ -1,12 +1,7 @@
 Starting sensor placement...
 Algorithm is starting for area None
-Area  None :  [5665]
-Area  None :  [5665 7917]
-Area  None :  [5665 7917 8164]
-Area  None :  [5665 7917 8164 7285]
+Area  None :  [11330]
+Area  None :  [11330 15834]
+Area  None :  [11330 15834 16328]
+Area  None :  [11330 15834 16328 14570]
 The non-parallel placement algorithm takes  1684.1071648597717 seconds
--------------------------
-[[  -5.11264615  445.50616832   31.88135604]
- [-133.21540711  143.82031262   15.78716456]
- [-156.12429316  372.27306131   14.58579167]
- [ -29.11359933  537.94267245    5.42168973]]
