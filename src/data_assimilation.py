@@ -25,16 +25,16 @@ ntimelocal = 536
 
 
 
-indLoc = np.loadtxt('./solutions/LSBU32/sub-domain_6_8/solution_6.txt') # indexes of nodes
+indLoc = np.loadtxt('./solutions/LSBU32/subdomain_19/validation_format/output.txt') # indexes of nodes
 
 NindLoc = len(indLoc)
 
 uvwTot = np.array([])
 for i in range(ntimelocal):
-    filename = './data/raw_data/sub-domains/LSBU_*_6/LSBU_'+str(i+1)+'_6.vtu' # path to all vtu files
+    filename = './data/raw_data/subdomains/LSBU_*_19/LSBU_'+str(i+1)+'_19.vtu' # path to all vtu files
     ug=vtktools.vtu(filename)
     ug.GetFieldNames()
-    xFluidity = ug.GetScalarField('TracerGeorge') # Output variable
+    xFluidity = ug.GetScalarField('TracerLambeth') # Output variable
     xMLocal = np.array([])
     for j in range(NindLoc):
         indexLocal = indLoc[j]
@@ -78,9 +78,9 @@ lam = 1e-60
 
 #put the observation file (time step 536)
 
-ugg=vtktools.vtu('./data/raw_data/sub-domains/LSBU_*_6/LSBU_536_6.vtu') #the last one
+ugg=vtktools.vtu('./data/raw_data/subdomains/LSBU_*_19/LSBU_536_19.vtu') #the last one
 ugg.GetFieldNames()
-uvwVecobstot = ugg.GetScalarField('TracerGeorge') # n2_TracerFluidity_WT?
+uvwVecobstot = ugg.GetScalarField('TracerLambeth') # n2_TracerFluidity_WT?
 uvwVecobs = np.array([])
 for i in range(NindLoc):
     indexLocal = indLoc[i]
@@ -92,9 +92,9 @@ for i in range(NindLoc):
 #put the background (time step 100)
 
 nstobs = len(uvwVecobs)
-ug=vtktools.vtu('./data/raw_data/sub-domains/LSBU_*_6/LSBU_200_6.vtu') # time step 100 or 200
+ug=vtktools.vtu('./data/raw_data/subdomains/LSBU_*_19/LSBU_200_19.vtu') # time step 100 or 200
 ug.GetFieldNames()
-uvwVectot = ug.GetScalarField('TracerGeorge')
+uvwVectot = ug.GetScalarField('TracerLambeth')
 nRec = len(uvwVectot)
 uvwVec = np.array([])
 for i in range(NindLoc):
@@ -182,7 +182,7 @@ for j in range(NindLoc):
 abserrxBtot = np.absolute(errxBtot)
 
 ug.AddScalarField('u_0^M - u_C', abserrxBtot)
-ug.Write('./validation/abserruM400-local.vtu') # create result folder and
+# ug.Write('./validation/abserruM400-local.vtu') # create result folder and
 
 
 errxDAtot = np.array([])
@@ -197,7 +197,7 @@ for j in range(NindLoc):
 abserrxDAtot = np.absolute(errxDAtot)
 
 ug.AddScalarField('u^DA - u_C', abserrxDAtot)
-ug.Write('./validation/abserruDA400-local.vtu')
+# ug.Write('./validation/abserruDA400-local.vtu')
 
 
 errxDAtot = np.array([])
@@ -212,7 +212,7 @@ for j in range(NindLoc):
 abserrxDAtot = np.absolute(errxDAtot)
 
 ug.AddScalarField('u^DA - u_C', abserrxDAtot)
-ug.Write('./validation/abserruDA400-local.vtu')
+# ug.Write('./validation/abserruDA400-local.vtu')
 
 
 xDAtot = uvwVectot.copy()
@@ -223,7 +223,7 @@ for j in range(NindLoc):
     xDAtot[indexLocal] = xDA[j]
 
 ug.AddScalarField('uDA', xDAtot)
-ug.Write('./validation/uDA400-local.vtu')
+# ug.Write('./validation/uDA400-local.vtu')
 
 
 xBtot = uvwVectot.copy()

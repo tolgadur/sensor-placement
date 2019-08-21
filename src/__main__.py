@@ -12,29 +12,32 @@ from time import time
 
 def main():
     """ Defining file paths and calling functions to optimize sensor placement """
-    # MagicProject.plotHistogram(area=15, tracer='tracer_front_blackfriars')
-    # MagicProject.describeData(area=15, tracer='tracer_blackfriars')
-    # MagicProject.plotResiuals(area=15, tracer='tracer_blackfriars')
+    # MagicProject.plotHistogram(subdomain=15, tracer='tracer_front_blackfriars')
+    # MagicProject.describeData(subdomain=15, tracer='tracer_blackfriars')
+    # MagicProject.plotResiuals(subdomain=15, tracer='tracer_blackfriars')
 
     # t0 = time()
-    # A = MagicProject.parallelPlacement(areas=[1, 2], k=4, algorithm=4)
+    # A = MagicProject.parallelPlacement(subdomains=[1, 2], k=4, algorithm=4)
     # t1 = time()
     # print('The parallel placement algorithm takes ', (t1-t0), 'seconds')
 
     t0 = time()
-    A = MagicProject.simplePlacement(area=15, k=4, algorithm=2)
+    A = MagicProject.simplePlacement(subdomain=15, k=4, algorithm=2)
     t1 = time()
     print('The non-parallel placement algorithm takes ', (t1-t0), 'seconds')
 
     """ Printing the optimizing sensor placements """
-    V1_df = pd.read_csv('data/csv_data/area_15/positions.csv')
-    # V2_df = pd.read_csv('data/csv_data/area_8/positions.csv')
+    V1_df = pd.read_csv('data/csv_data/subdomain_15/positions.csv')
     V1 = V1_df[['X', 'Y', 'Z']].copy().values
+    V1 = V1[::2]
+    # V2_df = pd.read_csv('data/csv_data/subdomain_8/positions.csv')
     # V2 = V2_df[['X', 'Y', 'Z']].copy().values
+    #V2 = V2[::2]
 
+    # A = [7907, 6798, 9581, 10825]
     print('-------------------------')
-    # print('Area 6: \n', V1[A[0][1]])
-    # print('Area 8: \n', V2[A[1][1]])
+    # print('subdomain 6: \n', V1[A[0][1]])
+    # print('subdomain 8: \n', V2[A[1][1]])
     print(V1[A])
 
 if __name__== "__main__":

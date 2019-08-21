@@ -78,7 +78,7 @@ def positionAndTracerCSV(pos, tracer, average=True):
 
     print('Saving...')
     print('DF Shape: ', df.shape)
-    df.to_csv('data/csv_data/area15.csv', index=False)
+    df.to_csv('data/csv_data/subdomain_15.csv', index=False)
 
 def removeOutlier(df_in, col_name):
     """ This funtion drops all outliers in a pandas dataframe according to the

@@ -73,7 +73,7 @@ class SensorPlacement:
         return [x for x in A if cov[y, x] > epsilon]
 
     @staticmethod
-    def naiveSensorPlacement(cov, k, V, S, U, A, area=None, output=None):
+    def naiveSensorPlacement(cov, k, V, S, U, A, subdomain=None, output=None):
         """ This is an implementation of the first approximation function suggested in
             the 'Near-Optimal Sensor Placement' paper.
             Input:
@@ -83,7 +83,7 @@ class SensorPlacement:
             - S: indices of all possible sensor positions
             - U: indices of all impossible sensor positions
         """
-        print('Algorithm is starting for area', area, flush=True)
+        print('Algorithm is starting for subdomain', subdomain, flush=True)
         A = A
 
         for j in range(k):
@@ -95,13 +95,13 @@ class SensorPlacement:
                                          SensorPlacement.__conditionalVariance(cov, y, AHat))
             y_star = S_A[np.argmax(delta)]
             A = np.append(A, y_star).astype(int)
-            print('Area ', area, ': ', A, flush=True)
-        if area != None:
-            output.put((area, A))
+            print('subdomain ', subdomain, ': ', A, flush=True)
+        if subdomain != None:
+            output.put((subdomain, A))
         return A
 
     @staticmethod
-    def lazySensorPlacement(cov, k, V, S, U, A, area=None, output=None):
+    def lazySensorPlacement(cov, k, V, S, U, A, subdomain=None, output=None):
         """ This is an implementation of the second approximation function suggested in
             the 'Near-Optimal Sensor Placement' paper. It uses a priority queue in order
             to reduce the time complexity from O(k*n^4) to O(k*n^3).
@@ -112,7 +112,7 @@ class SensorPlacement:
             - S: indices of all possible sensor positions
             - U: indices of all impossible sensor positions
         """
-        print('Algorithm is starting for area', area, flush=True)
+        print('Algorithm is starting for subdomain', subdomain, flush=True)
         A = A
 
         delta = -1 * np.inf * np.ones((len(S), 1))
@@ -130,13 +130,13 @@ class SensorPlacement:
                 heapq.heappush(heap, (-1 * criterion, y_star, j))
 
             A = np.append(A, y_star).astype(int)
-            print('Area ', area, ': ', A, flush=True)
-        if area != None:
-            output.put((area, A))
+            print('subdomain ', subdomain, ': ', A, flush=True)
+        if subdomain != None:
+            output.put((subdomain, A))
         return A
 
     @staticmethod
-    def localKernelPlacement(cov, k, V, S, U, A, area=None, output=None):
+    def localKernelPlacement(cov, k, V, S, U, A, subdomain=None, output=None):
         """ This is an implementation of the third approximation function suggested in
             the 'Near-Optimal Sensor Placement' paper. It only considers local kernels
             in order to reduce the time complexity O(k*n).
@@ -147,7 +147,7 @@ class SensorPlacement:
             - S: indices of all possible sensor positions
             - U: indices of all impossible sensor positions
         """
-        print('Algorithm is starting for area', area, flush=True)
+        print('Algorithm is starting for subdomain', subdomain, flush=True)
         A = A
         epsilon = 1e-10
 
@@ -159,7 +159,7 @@ class SensorPlacement:
         for j in range(k):
             y_star = N[np.argmax(delta)]
             A = np.append(A, y_star).astype(int)
-            print('Area ', area, ': ', A, flush=True)
+            print('subdomain ', subdomain, ': ', A, flush=True)
 
             N = SensorPlacement.__localSet(cov, y_star, S, epsilon)
             N = np.setdiff1d(S, A).astype(int)
@@ -169,12 +169,12 @@ class SensorPlacement:
                 delta = np.append(delta, SensorPlacement.__localConditionalVariance(cov, y, A, epsilon) / \
                                          SensorPlacement.__localConditionalVariance(cov, y, AHat, epsilon))
 
-        if area != None:
-            output.put((area, A))
+        if subdomain != None:
+            output.put((subdomain, A))
         return A
 
     @staticmethod
-    def lazyLocalKernelPlacement(cov, k, V, S, U, A, area=None, output=None):
+    def lazyLocalKernelPlacement(cov, k, V, S, U, A, subdomain=None, output=None):
         """ This is a mix between the lazySensorPlacement method and the localKernelPlacement
             method.
             Input:
@@ -184,7 +184,7 @@ class SensorPlacement:
             - S: indices of all possible sensor positions
             - U: indices of all impossible sensor positions
         """
-        print('Algorithm is starting for area', area, flush=True)
+        print('Algorithm is starting for subdomain', subdomain, flush=True)
         A = A
         epsilon = 1e-10
 
@@ -203,7 +203,7 @@ class SensorPlacement:
                 heapq.heappush(heap, (-1 * criterion, y_star, j))
 
             A = np.append(A, y_star).astype(int)
-            print('Area ', area, ': ', A, flush=True)
-        if area != None:
-            output.put((area, A))
+            print('subdomain ', subdomain, ': ', A, flush=True)
+        if subdomain != None:
+            output.put((subdomain, A))
         return A

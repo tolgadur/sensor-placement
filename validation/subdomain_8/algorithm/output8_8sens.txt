@@ -1,0 +1,67 @@
+RUNNING THE L-BFGS-B CODE
+
+           * * *
+
+Machine precision = 2.220D-16
+ N =            7     M =           10
+ This problem is unconstrained.
+
+At X0         0 variables are exactly at the bounds
+
+At iterate    0    f=  3.92076D+55    |proj g|=  1.54360D+58
+
+At iterate    1    f=  1.05057D+55    |proj g|=  1.95312D+57
+
+At iterate    2    f=  4.23741D+54    |proj g|=  1.18390D+57
+
+At iterate    3    f=  3.84900D+53    |proj g|=  2.31501D+56
+
+At iterate    4    f=  1.10877D+53    |proj g|=  1.42790D+56
+
+At iterate    5    f=  1.72232D+52    |proj g|=  5.00150D+55
+
+At iterate    6    f=  1.15770D+51    |proj g|=  7.51643D+54
+
+At iterate    7    f=  1.08734D+51    |proj g|=  2.91295D+54
+
+At iterate    8    f=  1.07425D+51    |proj g|=  1.94770D+53
+
+At iterate    9    f=  1.07404D+51    |proj g|=  1.52082D+53
+
+At iterate   10    f=  1.07388D+51    |proj g|=  4.55906D+52
+
+At iterate   11    f=  1.07387D+51    |proj g|=  2.79567D+52
+
+At iterate   12    f=  1.07387D+51    |proj g|=  2.72911D+51
+
+At iterate   13    f=  1.07387D+51    |proj g|=  5.68187D+50
+
+At iterate   14    f=  1.07387D+51    |proj g|=  1.27205D+51
+
+           * * *
+
+Tit   = total number of iterations
+Tnf   = total number of function evaluations
+Tnint = total number of segments explored during Cauchy searches
+Skip  = number of BFGS updates skipped
+Nact  = number of active bounds at final generalized Cauchy point
+Projg = norm of the final projected gradient
+F     = final function value
+
+           * * *
+
+   N    Tit     Tnf  Tnint  Skip  Nact     Projg        F
+    7     14     17      1     0     0   1.272D+51   1.074D+51
+  F =   1.0738658608323249E+051
+
+CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
+
+ Cauchy                time 0.000E+00 seconds.
+ Subspace minimization time 0.000E+00 seconds.
+ Line search           time 0.000E+00 seconds.
+
+ Total User time 0.000E+00 seconds.
+
+L2 norm of the background error 9.802201454902907
+
+L2 norm of the error in DA solution 0.10739256374397897

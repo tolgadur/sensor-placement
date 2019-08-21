@@ -2,7 +2,7 @@ import math
 import pandas as pd
 import numpy as np
 
-data = pd.read_csv('./solutions/LSBU32/area_6_8/output_absolute_4sensoren.csv', dtype=np.float64)
+data = pd.read_csv('./solutions/LSBU32/subdomain_6_8/output_absolute_4sensoren.csv', dtype=np.float64)
 data = data.values
 
 average_8 = 0
