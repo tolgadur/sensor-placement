@@ -14,19 +14,19 @@ from sensor_placement import SensorPlacement
 """
 
 class MagicProject:
-    def describeData(subdomain, tracer='tracer'):
+    def describeData(subdomain):
         """ This function describes the data in the specified subdomain according to
             the pandas describe function.
             Input:
             - tracer: tracer variable we are interested in
             - subdomain: integers in range [0,31] indicating the subdomain we are interested in
         """
-        df = pd.read_csv('data/csv_data/subdomain_'+str(subdomain)+'/'+tracer+'.csv')
+        df = pd.read_csv('data/csv_data/subdomain_'+str(subdomain)+'/tracer.csv')
         print(df.apply(pd.DataFrame.describe, axis=1))
         return None
 
-    def plotResiuals(subdomain, number_bins=600, tracer='tracer',):
-        df = pd.read_csv('data/csv_data/subdomain_'+str(subdomain)+'/'+tracer+'.csv')
+    def plotResiuals(subdomain, number_bins=600):
+        df = pd.read_csv('data/csv_data/subdomain_'+str(subdomain)+'/tracer.csv')
         df = df.T
         residuals = df - df.mean()
         data = residuals[500].values
@@ -37,7 +37,7 @@ class MagicProject:
         plt.show()
         return None
 
-    def plotHistogram(subdomain, number_bins=600, tracer='tracer'):
+    def plotHistogram(subdomain, number_bins=600):
         """ This function prints calculates and displays an histogram based on the
             inputted data.
             Input:
@@ -45,11 +45,11 @@ class MagicProject:
             - subdomain: integers in range [0,31] indicating the subdomain to plot the histogram of
             - number_bins: specifies how many bins the histogram should have
         """
-        df = pd.read_csv('data/csv_data/subdomain_'+str(subdomain)+'/'+tracer+'.csv')
+        df = pd.read_csv('data/csv_data/subdomain_'+str(subdomain)+'/tracer.csv')
         data = df.mean(axis=1)
         plt.figure(figsize=(10, 4))
         counts, bins = np.histogram(data, bins=number_bins)
-        plt.title(tracer+' LSBU32_'+str(subdomain)+'. Number of bins: '+str(number_bins))
+        plt.title('LSBU32_'+str(subdomain)+'. Number of bins: '+str(number_bins))
         plt.hist(bins[:-1], bins, weights=counts)
         plt.show()
 
@@ -98,18 +98,18 @@ class MagicProject:
             V_df, tracer_df = MagicProject.__allSubDomains()
         else:
             position_file = 'data/csv_data/subdomain_'+str(subdomain)+'/positions.csv'
-            tracer_file = 'data/csv_data/subdomain_'+str(subdomain)+'/tracer_blackfriars.csv'
+            tracer_file = 'data/csv_data/subdomain_'+str(subdomain)+'/tracer.csv'
             V_df = pd.read_csv(position_file)
             tracer_df = pd.read_csv(tracer_file)
 
         """ Preparing index arrays """
         V = V_df[['X', 'Y', 'Z']].copy().values
-        V = V[:100:2]
+        V = V[::2]
         V_i, S_i, U_i = MagicProject.__positionIndices(V)
 
         """ Preparing tracer matrix """
         tracer = tracer_df.values
-        tracer = tracer[:100:2]
+        tracer = tracer[::2]
 
         return tracer, V_i, S_i, U_i
 

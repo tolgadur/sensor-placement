@@ -1,0 +1,51 @@
+RUNNING THE L-BFGS-B CODE
+
+           * * *
+
+Machine precision = 2.220D-16
+ N =            3     M =           10
+ This problem is unconstrained.
+
+At X0         0 variables are exactly at the bounds
+
+At iterate    0    f=  7.46480D+42    |proj g|=  6.22772D+47
+
+At iterate    1    f=  5.72566D+41    |proj g|=  7.30181D+46
+
+At iterate    2    f=  2.74397D+41    |proj g|=  4.80992D+46
+
+At iterate    3    f=  5.73318D+40    |proj g|=  2.52771D+44
+
+At iterate    4    f=  5.73258D+40    |proj g|=  1.03237D+43
+
+At iterate    5    f=  5.73258D+40    |proj g|=  5.58342D+36
+
+At iterate    6    f=  5.73258D+40    |proj g|=  7.27525D+32
+
+           * * *
+
+Tit   = total number of iterations
+Tnf   = total number of function evaluations
+Tnint = total number of segments explored during Cauchy searches
+Skip  = number of BFGS updates skipped
+Nact  = number of active bounds at final generalized Cauchy point
+Projg = norm of the final projected gradient
+F     = final function value
+
+           * * *
+
+   N    Tit     Tnf  Tnint  Skip  Nact     Projg        F
+    3      6      8      1     0     0   7.275D+32   5.733D+40
+  F =   5.7325783905903035E+040
+
+CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
+
+ Cauchy                time 0.000E+00 seconds.
+ Subspace minimization time 0.000E+00 seconds.
+ Line search           time 0.000E+00 seconds.
+
+ Total User time 0.000E+00 seconds.
+
+L2 norm of the background error 3.086760655803461
+
+L2 norm of the error in DA solution 0.6192057585476483

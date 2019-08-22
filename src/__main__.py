@@ -12,7 +12,8 @@ from time import time
 
 def main():
     """ Defining file paths and calling functions to optimize sensor placement """
-    # MagicProject.plotHistogram(subdomain=15, tracer='tracer_front_blackfriars')
+    MagicProject.plotHistogram(subdomain=8)
+    exit(0)
     # MagicProject.describeData(subdomain=15, tracer='tracer_blackfriars')
     # MagicProject.plotResiuals(subdomain=15, tracer='tracer_blackfriars')
 
@@ -22,7 +23,7 @@ def main():
     # print('The parallel placement algorithm takes ', (t1-t0), 'seconds')
 
     t0 = time()
-    A = MagicProject.simplePlacement(subdomain=15, k=4, algorithm=2)
+    A = MagicProject.simplePlacement(subdomain=6, k=4, algorithm=2)
     t1 = time()
     print('The non-parallel placement algorithm takes ', (t1-t0), 'seconds')
 

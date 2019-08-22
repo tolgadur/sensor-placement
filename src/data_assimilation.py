@@ -25,7 +25,7 @@ ntimelocal = 536
 
 
 
-indLoc = np.loadtxt('./solutions/LSBU32/subdomain_19/validation_format/output.txt') # indexes of nodes
+indLoc = np.loadtxt('./solutions/LSBU32/subdomain_19/validation_format/random3.txt') # indexes of nodes
 
 NindLoc = len(indLoc)
 

@@ -3,24 +3,16 @@ RUNNING THE L-BFGS-B CODE
            * * *
 
 Machine precision = 2.220D-16
- N =            3     M =           10
+ N =            7     M =           10
  This problem is unconstrained.
 
 At X0         0 variables are exactly at the bounds
 
-At iterate    0    f=  2.02259D+58    |proj g|=  2.82697D+59
+At iterate    0    f=  3.58027D+60    |proj g|=  1.93409D+61
 
-At iterate    1    f=  6.75205D+56    |proj g|=  4.44178D+58
+At iterate    1    f=  5.32654D+49    |proj g|=  6.03903D+44
 
-At iterate    2    f=  6.17443D+55    |proj g|=  1.34319D+58
-
-At iterate    3    f=  8.40313D+47    |proj g|=  1.84346D+51
-
-At iterate    4    f=  8.40180D+47    |proj g|=  1.17849D+51
-
-At iterate    5    f=  8.40088D+47    |proj g|=  2.75369D+41
-
-At iterate    6    f=  8.40088D+47    |proj g|=  3.38135D+40
+At iterate    2    f=  5.32654D+49    |proj g|=  2.47037D+40
 
            * * *
 
@@ -35,8 +27,8 @@ F     = final function value
            * * *
 
    N    Tit     Tnf  Tnint  Skip  Nact     Projg        F
-    3      6     11      1     0     0   3.381D+40   8.401D+47
-  F =   8.4008805892645210E+047
+    7      2      4      1     0     0   2.470D+40   5.327D+49
+  F =   5.3265351312990773E+049
 
 CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
 
@@ -46,6 +38,6 @@ CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
 
  Total User time 0.000E+00 seconds.
 
-L2 norm of the background error 0.003318516949820542
+L2 norm of the background error 2.4858598358719657e-05
 
-L2 norm of the error in DA solution 6.437704739783615e-06 
+L2 norm of the error in DA solution 3.856940579544999e-06 
