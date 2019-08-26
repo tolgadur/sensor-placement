@@ -1,0 +1,12 @@
+Starting sensor placement...
+Algorithm is starting for subdomain None
+subdomain  None :  [15036]
+subdomain  None :  [15036  7710]
+subdomain  None :  [15036  7710  7604]
+subdomain  None :  [15036  7710  7604  6426]
+The non-parallel placement algorithm takes  254583.50049710274 seconds
+-------------------------
+[[-2.13599855e+02 -2.97723512e+02  1.18956349e+01]
+ [-1.44594895e+02 -1.66622968e+02  7.49185501e-01]
+ [-1.38680496e+02 -1.63308091e+02  2.94266952e+00]
+ [-1.44185935e+02 -1.64290588e+02  2.00000003e-01]]

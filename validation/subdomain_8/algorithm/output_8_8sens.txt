@@ -8,37 +8,41 @@ Machine precision = 2.220D-16
 
 At X0         0 variables are exactly at the bounds
 
-At iterate    0    f=  2.02259D+58    |proj g|=  3.28981D+59
+At iterate    0    f=  2.02389D+58    |proj g|=  3.28876D+59
 
-At iterate    1    f=  3.13489D+56    |proj g|=  2.68448D+58
+At iterate    1    f=  3.20906D+56    |proj g|=  2.70977D+58
 
-At iterate    2    f=  8.75210D+55    |proj g|=  1.33246D+58
+At iterate    2    f=  8.98151D+55    |proj g|=  1.34435D+58
 
-At iterate    3    f=  5.34077D+53    |proj g|=  8.64309D+56
+At iterate    3    f=  5.84775D+53    |proj g|=  8.96315D+56
 
-At iterate    4    f=  6.92099D+52    |proj g|=  2.19371D+56
+At iterate    4    f=  9.30254D+52    |proj g|=  2.24829D+56
 
-At iterate    5    f=  3.24861D+52    |proj g|=  4.04777D+55
+At iterate    5    f=  5.32825D+52    |proj g|=  5.18386D+55
 
-At iterate    6    f=  2.50114D+52    |proj g|=  3.50981D+55
+At iterate    6    f=  4.11631D+52    |proj g|=  4.55818D+55
 
-At iterate    7    f=  3.76424D+51    |proj g|=  5.27985D+55
+At iterate    7    f=  1.07688D+52    |proj g|=  8.00156D+55
 
-At iterate    8    f=  2.21685D+51    |proj g|=  4.71336D+55
+At iterate    8    f=  1.08708D+51    |proj g|=  3.84306D+55
 
-At iterate    9    f=  5.74919D+49    |proj g|=  7.45163D+54
+At iterate    9    f=  1.66646D+50    |proj g|=  1.61475D+55
 
-At iterate   10    f=  1.09189D+48    |proj g|=  9.39865D+53
+At iterate   10    f=  3.83420D+48    |proj g|=  1.89764D+54
 
-At iterate   11    f=  6.61187D+43    |proj g|=  4.68612D+51
+At iterate   11    f=  3.11473D+45    |proj g|=  1.71822D+52
 
-At iterate   12    f=  3.64454D+43    |proj g|=  6.95345D+49
+At iterate   12    f=  2.41226D+43    |proj g|=  1.30795D+51
 
-At iterate   13    f=  3.64403D+43    |proj g|=  5.69452D+47
+At iterate   13    f=  2.12191D+43    |proj g|=  3.92101D+49
 
-At iterate   14    f=  3.64403D+43    |proj g|=  2.37512D+47
+At iterate   14    f=  2.12182D+43    |proj g|=  1.68124D+49
 
-At iterate   15    f=  3.64403D+43    |proj g|=  7.57094D+46
+At iterate   15    f=  2.12182D+43    |proj g|=  8.80312D+48
+
+At iterate   16    f=  2.12182D+43    |proj g|=  1.09003D+46
+
+At iterate   17    f=  2.12182D+43    |proj g|=  2.26840D+44
 
            * * *
 
@@ -53,8 +57,8 @@ F     = final function value
            * * *
 
    N    Tit     Tnf  Tnint  Skip  Nact     Projg        F
-    7     15     20      1     0     0   7.571D+46   3.644D+43
-  F =   3.6440314803875940E+043
+    7     17     22      1     0     0   2.268D+44   2.122D+43
+  F =   2.1218164238128891E+043
 
 CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
 
@@ -64,6 +68,6 @@ CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
 
  Total User time 0.000E+00 seconds.
 
-L2 norm of the background error 0.003329137623923686
+L2 norm of the background error 0.0012653273554079072
 
-L2 norm of the error in DA solution 4.2399399765331676e-08 
+L2 norm of the error in DA solution 3.2353595524171476e-08

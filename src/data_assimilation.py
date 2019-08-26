@@ -25,16 +25,16 @@ ntimelocal = 536
 
 
 
-indLoc = np.loadtxt('./solutions/LSBU32/subdomain_19/validation_format/random3.txt') # indexes of nodes
+indLoc = np.loadtxt('./solutions/LSBU32/subdomain_6_8/validation_format/output_8_alg2.txt') # indexes of nodes
 
 NindLoc = len(indLoc)
 
 uvwTot = np.array([])
 for i in range(ntimelocal):
-    filename = './data/raw_data/subdomains/LSBU_*_19/LSBU_'+str(i+1)+'_19.vtu' # path to all vtu files
+    filename = './data/raw_data/subdomains/LSBU_*_8/LSBU_'+str(i+1)+'_8.vtu' # path to all vtu files
     ug=vtktools.vtu(filename)
     ug.GetFieldNames()
-    xFluidity = ug.GetScalarField('TracerLambeth') # Output variable
+    xFluidity = ug.GetScalarField('TracerGeorge') # Output variable
     xMLocal = np.array([])
     for j in range(NindLoc):
         indexLocal = indLoc[j]
@@ -78,9 +78,9 @@ lam = 1e-60
 
 #put the observation file (time step 536)
 
-ugg=vtktools.vtu('./data/raw_data/subdomains/LSBU_*_19/LSBU_536_19.vtu') #the last one
+ugg=vtktools.vtu('./data/raw_data/subdomains/LSBU_*_8/LSBU_536_8.vtu') #the last one
 ugg.GetFieldNames()
-uvwVecobstot = ugg.GetScalarField('TracerLambeth') # n2_TracerFluidity_WT?
+uvwVecobstot = ugg.GetScalarField('TracerGeorge') # n2_TracerFluidity_WT?
 uvwVecobs = np.array([])
 for i in range(NindLoc):
     indexLocal = indLoc[i]
@@ -92,9 +92,9 @@ for i in range(NindLoc):
 #put the background (time step 100)
 
 nstobs = len(uvwVecobs)
-ug=vtktools.vtu('./data/raw_data/subdomains/LSBU_*_19/LSBU_200_19.vtu') # time step 100 or 200
+ug=vtktools.vtu('./data/raw_data/subdomains/LSBU_*_8/LSBU_300_8.vtu')
 ug.GetFieldNames()
-uvwVectot = ug.GetScalarField('TracerLambeth')
+uvwVectot = ug.GetScalarField('TracerGeorge')
 nRec = len(uvwVectot)
 uvwVec = np.array([])
 for i in range(NindLoc):

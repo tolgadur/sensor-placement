@@ -8,23 +8,25 @@ Machine precision = 2.220D-16
 
 At X0         0 variables are exactly at the bounds
 
-At iterate    0    f=  1.21406D+61    |proj g|=  3.20137D+61
+At iterate    0    f=  8.28389D+60    |proj g|=  2.61324D+61
 
-At iterate    1    f=  1.41897D+60    |proj g|=  1.07438D+61
+At iterate    1    f=  3.13899D+60    |proj g|=  1.63369D+61
 
-At iterate    2    f=  5.05320D+58    |proj g|=  1.02647D+60
+At iterate    2    f=  2.96671D+58    |proj g|=  9.29752D+59
 
-At iterate    3    f=  2.73108D+58    |proj g|=  7.57204D+59
+At iterate    3    f=  1.02117D+58    |proj g|=  4.82863D+59
 
-At iterate    4    f=  8.17401D+56    |proj g|=  7.46961D+58
+At iterate    4    f=  2.77529D+56    |proj g|=  7.36743D+58
 
-At iterate    5    f=  7.33352D+56    |proj g|=  5.35123D+58
+At iterate    5    f=  2.78045D+55    |proj g|=  1.94094D+58
 
-At iterate    6    f=  6.61731D+56    |proj g|=  1.76067D+56
+At iterate    6    f=  3.62973D+54    |proj g|=  1.85795D+56
 
-At iterate    7    f=  6.61730D+56    |proj g|=  6.11185D+54
+At iterate    7    f=  3.62929D+54    |proj g|=  3.11695D+54
 
-At iterate    8    f=  6.61730D+56    |proj g|=  7.05516D+49
+At iterate    8    f=  3.62929D+54    |proj g|=  1.01230D+52
+
+At iterate    9    f=  3.62929D+54    |proj g|=  6.27356D+50
 
            * * *
 
@@ -39,8 +41,8 @@ F     = final function value
            * * *
 
    N    Tit     Tnf  Tnint  Skip  Nact     Projg        F
-    3      8      9      1     0     0   7.055D+49   6.617D+56
-  F =   6.6173018019543231E+056
+    3      9     10      1     0     0   6.274D+50   3.629D+54
+  F =   3.6292945767454665E+054
 
 CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
 
@@ -50,6 +52,6 @@ CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
 
  Total User time 0.000E+00 seconds.
 
-L2 norm of the background error 0.30589621156526264
+L2 norm of the background error 0.1444441305850075 (1.4444e-1)
 
-L2 norm of the error in DA solution 0.010678410760508992 
+L2 norm of the error in DA solution 0.0007908193027736717 (7.9082e-4)

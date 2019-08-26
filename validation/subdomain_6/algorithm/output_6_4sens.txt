@@ -8,11 +8,11 @@ Machine precision = 2.220D-16
 
 At X0         0 variables are exactly at the bounds
 
-At iterate    0    f=  3.58027D+60    |proj g|=  1.89034D+61
+At iterate    0    f=  3.58039D+60    |proj g|=  1.89037D+61
 
-At iterate    1    f=  1.37516D+49    |proj g|=  6.15866D+45
+At iterate    1    f=  1.34544D+49    |proj g|=  7.17954D+45
 
-At iterate    2    f=  1.37516D+49    |proj g|=  1.64411D+40
+At iterate    2    f=  1.34544D+49    |proj g|=  5.11498D+45
 
            * * *
 
@@ -27,8 +27,8 @@ F     = final function value
            * * *
 
    N    Tit     Tnf  Tnint  Skip  Nact     Projg        F
-    3      2      4      1     0     0   1.644D+40   1.375D+49
-  F =   1.3751565765837270E+049
+    3      2     10      1     0     0   5.115D+45   1.345D+49
+  F =   1.3454392979308006E+049
 
 CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
 
@@ -38,6 +38,6 @@ CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
 
  Total User time 0.000E+00 seconds.
 
-L2 norm of the background error 2.463563745462672e-05
+L2 norm of the background error 1.689138087517888e-05
 
-L2 norm of the error in DA solution 1.9597317344236734e-06
+L2 norm of the error in DA solution 1.9384410781351357e-06 

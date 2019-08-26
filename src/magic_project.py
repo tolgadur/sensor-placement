@@ -22,7 +22,8 @@ class MagicProject:
             - subdomain: integers in range [0,31] indicating the subdomain we are interested in
         """
         df = pd.read_csv('data/csv_data/subdomain_'+str(subdomain)+'/tracer.csv')
-        print(df.apply(pd.DataFrame.describe, axis=1))
+        df = df.apply(pd.DataFrame.describe, axis=1)
+        print(df.sort_values('max', ascending=False))
         return None
 
     def plotResiuals(subdomain, number_bins=600):
@@ -104,12 +105,12 @@ class MagicProject:
 
         """ Preparing index arrays """
         V = V_df[['X', 'Y', 'Z']].copy().values
-        V = V[::2]
+        V = V[:100:2]
         V_i, S_i, U_i = MagicProject.__positionIndices(V)
 
         """ Preparing tracer matrix """
         tracer = tracer_df.values
-        tracer = tracer[::2]
+        tracer = tracer[:100:2]
 
         return tracer, V_i, S_i, U_i
 
@@ -127,6 +128,7 @@ class MagicProject:
         print('Starting sensor placement...', flush=True)
         tracer, V_i, S_i, U_i = MagicProject.__dataPreperation(subdomain)
         cov = np.cov(tracer)
+        placed = np.divide(placed, 2).astype(int)
 
         """ Choosing and executing algorithm """
         if algorithm==1:
@@ -154,7 +156,7 @@ class MagicProject:
             - placed: array with already placed sensors
         """
         print('Starting parallel placement...', flush=True)
-        placed = [np.array([], dtype=int)]*len(subdomains) if placed==None else placed
+        placed = [np.array([], dtype=int)]*len(subdomains) if placed==None else np.divide(placed, 2).astype(int)
 
         V_i, S_i, U_i, cov = [], [], [], []
         for i in subdomains:
