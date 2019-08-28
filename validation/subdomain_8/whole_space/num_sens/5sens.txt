@@ -1,0 +1,25 @@
+Tit   = total number of iterations
+Tnf   = total number of function evaluations
+Tnint = total number of segments explored during Cauchy searches
+Skip  = number of BFGS updates skipped
+Nact  = number of active bounds at final generalized Cauchy point
+Projg = norm of the final projected gradient
+F     = final function value
+
+           * * *
+
+   N    Tit     Tnf  Tnint  Skip  Nact     Projg        F
+  535    135    149      1     0     0   2.504D+53   3.225D+52
+  F =   3.2245372544560488E+052
+
+CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH
+
+ Cauchy                time 0.000E+00 seconds.
+ Subspace minimization time 0.000E+00 seconds.
+ Line search           time 0.000E+00 seconds.
+
+ Total User time 0.000E+00 seconds.
+
+L2 norm of the background error 6.520684199227352e-07
+
+L2 norm of the error in DA solution 6.502591898702566e-07

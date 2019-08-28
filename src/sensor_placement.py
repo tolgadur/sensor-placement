@@ -68,7 +68,7 @@ class SensorPlacement:
             Input:
             - cov: covariance matrix
             - S_i: array with all indices of i
-            - epsilon: hyperparamter
+            - epsilon: hyperparameter
         """
         return [x for x in A if cov[y, x] > epsilon]
 
