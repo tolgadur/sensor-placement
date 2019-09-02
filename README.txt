@@ -1,7 +1,7 @@
+# Parallel Gaussian Processes for Optimal Sensor Placement 
+**Sensor-Placement** 
 
 ## Installation
-
-## Manual
 
 ## Contributing
 
