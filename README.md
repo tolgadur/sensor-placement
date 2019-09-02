@@ -1,7 +1,7 @@
 # Parallel Gaussian Processes for Optimal Sensor Placement 
 
 ## Installation
-Unfortunately, the package is currently not available on PyPi. Hence, the only way to use it is to clone the repository. We hope to change this in the near future.
+Unfortunately, the package is currently not available on PyPi. Hence, the only way to use it by to clone the repository. We hope to change this in the near future.
 
 ## Dependencies
 NumPy, Matplotlib, Multiprocessing, Vtk, Vtktools, GP, Pandas, Heapq, Time
