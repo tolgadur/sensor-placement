@@ -1,5 +1,7 @@
 # Parallel Gaussian Processes for Optimal Sensor Placement
+This is the Master's thesis of Tolga H. Dur that was carried out in the summer of 2019. 
 
+## Abstract
 
 ## User Guide
 For sensor placement outside the MAGIC project, the API of the SensorPlacement class can simply be called with the necessary parameters, such as the prior covariance matrix and the number sensors to be placed. For sensor placement within the MAGIC project, however, an API was written to further ease this process. The process of using this API is outlined in the following. Furthermore, with a few alternations in the MagicProject class, this can also be used for sensor placement outside the MAGIC project.  
@@ -31,6 +33,9 @@ A = MagicProject.simplePlacement(subdomain=6, k=4, algorithm=3)
 t1 = time()
 print('The non-parallel placement algorithm takes ', (t1-t0), 'seconds')
 ```
+
+## Data
+Simulation data modelling air pollution around the London South Bank University. 
 
 ## Dependencies
 NumPy, Matplotlib, Multiprocessing, Vtk, Vtktools, GP, Pandas, Heapq, Time
