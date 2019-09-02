@@ -37,6 +37,3 @@ NumPy, Matplotlib, Multiprocessing, Vtk, Vtktools, GP, Pandas, Heapq, Time
 
 ## Contributing
 We welcome pull request with improvements and suggestions.
-
-## Licence 
-[MIT](https://github.com/tolgadur/sensor-placement/blob/master/LICENSE)
