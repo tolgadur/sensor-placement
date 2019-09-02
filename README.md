@@ -9,8 +9,11 @@ After these preparations, the MagicProject API can be called for description, va
 """ Description """
 MagicProject.plotHistogram(subdomain=8, number_bins=5)
 MagicProject.describeData(subdomain=8)
+MagicProject.plotResiuals(subdomain=8, number_bins=800)
 
 """ Validation """
+print(MagicProject.validation_random(subdomain=6, k=1))
+
 indLoc = np.loadtxt('./solutions/subdomain_8/validation_format/num_sens/7sens.txt', dtype=int)
 print(MagicProject.validation(subdomain=8, A=indLoc))
 
@@ -19,6 +22,11 @@ t0 = time()
 A = MagicProject.parallelPlacement(subdomains=[1, 2], k=4, algorithm=4)
 t1 = time()
 print('The parallel placement algorithm takes ', (t1-t0), 'seconds')
+
+t0 = time()
+A = MagicProject.simplePlacement(subdomain=6, k=4, algorithm=3)
+t1 = time()
+print('The non-parallel placement algorithm takes ', (t1-t0), 'seconds')
 ```
 
 ## Dependencies
