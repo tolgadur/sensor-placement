@@ -1,4 +1,7 @@
-# Parallel Gaussian Processes for Optimal Sensor Placement 
+# Parallel Gaussian Processes for Optimal Sensor Placement
+
+
+## User Guide
 For sensor placement outside the MAGIC project, the API of the SensorPlacement class can simply be called with the necessary parameters, such as the prior covariance matrix and the number sensors to be placed. For sensor placement within the MAGIC project, however, an API was written to further ease this process. The process of using this API is outlined in the following. Furthermore, with a few alternations in the MagicProject class, this can also be used for sensor placement outside the MAGIC project.  
 
 The simulation data has to be converted into CSV-files and placed correctly in the file structure that is described in chapter 5. For VTU-files, the conversion is taken care of by the \textit{data\_preparation.py} script, which merely needs to be called with the file-path. Optionally, this script also normalizes and standardizes observations. After conversion, the CSV-Files have to be placed into the relevant folder specifying the sub-domain that is of interest. For work outside the LSBU32 test-side, this can be placed into the folder called \textit{subdomain\_0}. 
