@@ -39,6 +39,3 @@ Simulation data modelling air pollution around the London South Bank University.
 
 ## Dependencies
 NumPy, Matplotlib, Multiprocessing, Vtk, Vtktools, GP, Pandas, Heapq, Time
-
-## Contributing
-We welcome pull request with improvements and suggestions.
