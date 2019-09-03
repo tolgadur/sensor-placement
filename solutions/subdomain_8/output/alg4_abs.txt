@@ -1,0 +1,12 @@
+Starting parallel placement...
+Algorithm is starting for subdomain 6
+Algorithm is starting for area 8
+Subdomain 6 :  [17186]
+Subdomain 6 :  [17186 3964]
+Subdomain 6 :  [17186 3964 24950]
+Subdomain 6 :  [17186 3964 24950 22360]
+Subdomain 8 :  [12328]
+Subdomain 8 :  [12328 23334]
+Subdomain 8 :  [12328 23334 21306]
+Subdomain 8 :  [12328 23334 21306 10734]
+The parallel placement algorithm takes  66333.97760629654 seconds
