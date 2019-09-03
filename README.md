@@ -1,5 +1,5 @@
 # Parallel Gaussian Processes for Optimal Sensor Placement
-Master's thesis of Tolga H. Dur that was carried out in the summer of 2019. 
+Master's thesis of Tolga H. Dur that was carried out in the summer of 2019. Academic work cited by this thesis can be found in the documentation branch. 
 
 ## Abstract
 
