@@ -1,5 +1,5 @@
 # Parallel Gaussian Processes for Optimal Sensor Placement
-Master's thesis of Tolga H. Dur that was carried out in the summer of 2019. Academic work cited by this thesis can be found in the documentation branch. 
+Master's thesis of Tolga H. Dur that was carried out in the summer of 2019. Academic work cited by this thesis can be found in the documentation branch.
 
 ## Abstract
 Sensor placement within the MAGIC project is currently done in a seemingly arbitrary manner. The ESPRC-funded project attempts to develop a computational system that can be used to replace heating, ventilation and air conditioning systems with environmentally friendly alternatives such as natural ventilation systems. In order to work optimally, this system relies on input data that is measured by specifically designed sensors. However, thus far, there is no methodology to optimally place sensors. This thesis aims to use large scale simulation data to place sensors such pollution across the space is best possibly observed. Exemplary, the sensor placement task is solved in the LSBU test-side. In this context, LSBU is referring to London South Bank University, which was used as an initial test-side of the MAGIC project. 
@@ -38,7 +38,7 @@ print('The non-parallel placement algorithm takes ', (t1-t0), 'seconds')
 ```
 
 ## Data
-Simulation data that models air pollution around the London South Bank University. 
+Simulation data that models air pollution around the London South Bank University. Due to the large size, the data is not included in this repository. 
 
 ## Dependencies
 NumPy, Matplotlib, Multiprocessing, Vtk, Vtktools, GP, Pandas, Heapq, Time
