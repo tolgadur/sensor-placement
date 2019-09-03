@@ -35,7 +35,7 @@ print('The non-parallel placement algorithm takes ', (t1-t0), 'seconds')
 ```
 
 ## Data
-Simulation data modelling air pollution around the London South Bank University. 
+Simulation data that models air pollution around the London South Bank University. 
 
 ## Dependencies
 NumPy, Matplotlib, Multiprocessing, Vtk, Vtktools, GP, Pandas, Heapq, Time
