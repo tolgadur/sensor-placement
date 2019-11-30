@@ -104,11 +104,11 @@ class MagicProject:
 
         """ Preparing index and tracer arrays """
         V = V_df[['X', 'Y', 'Z']].copy().values
-        V = V[::2]
+#         V = V[::2]
         V_i, S_i, U_i = MagicProject.__positionIndices(V)
 
         tracer = tracer_df.values
-        tracer = tracer[::2]
+#         tracer = tracer[::2]
 
         return tracer, V_i, S_i, U_i
 
@@ -134,7 +134,7 @@ class MagicProject:
             - subdomain: subdomain of interest
             - A: indices of sensors to place.
         """
-        A = np.floor_divide(A, 2)
+#         A = np.floor_divide(A, 2)
         tracer, V_i, S_i, U_i = MagicProject.__dataPreperation(subdomain)
         mean_tracer = tracer.mean(axis=1)
         cov = np.cov(tracer)
