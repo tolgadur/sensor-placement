@@ -134,7 +134,7 @@ class MagicProject:
             - subdomain: subdomain of interest
             - A: indices of sensors to place.
         """
-#         A = np.floor_divide(A, 2)
+#         A = A * 2
         tracer, V_i, S_i, U_i = MagicProject.__dataPreperation(subdomain)
         mean_tracer = tracer.mean(axis=1)
         cov = np.cov(tracer)
